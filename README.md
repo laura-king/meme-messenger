@@ -1,3 +1,10 @@
+On First Run:
+	$ export FLASK_APP=app.py
+After:
+$ flask run
+
+
+
 **Contact Info:**
 
 Laura King - lxk3301@rit.edu
