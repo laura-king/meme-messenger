@@ -7,3 +7,5 @@ Adam Kuhn - ark9719@rit.edu
 Mackenzie Bowe - mmb8830@rit.edu
 
 Bill Tarr - wet1177@rit.edu
+
+Melissa Laskowski - mxl7583@rit.edu
