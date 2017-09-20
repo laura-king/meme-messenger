@@ -3,7 +3,10 @@ On First Run:
 After:
 $ flask run
 
+**Dependencies:**
 
+- Python 3.6
+- Flask
 
 **Contact Info:**
 
