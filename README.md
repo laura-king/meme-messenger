@@ -1,5 +1,5 @@
 On First Run:
-	$ export FLASK_APP=app.py
+    $ export FLASK_APP=app.py
 After:
 $ flask run
 
