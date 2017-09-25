@@ -16,12 +16,14 @@ def welcome_page():
     """
     return render_template('welcome.html')
 
-@app.route('/account')
-def account_page():
+@app.route('/account/<username>')
+def account_page(username):
     """
     Loads account page
     """
-    return render_template('account_page.html')
+    #Obtain the user's information somehow and package it in a dictonary
+    #Get it from the db based on a session token?
+    return render_template('account_page.html', username=username)
 
 if __name__ == "__main__":
     app.run()
