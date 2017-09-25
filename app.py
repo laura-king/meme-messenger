@@ -30,17 +30,16 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('google_token')
-    return redirect(url_for('authorized'))
+    return redirect(url_for('main_page'))
 
 
-@google.authorized_handler
 @app.route('/authorized')
+@google.authorized_handler
 def authorized(resp):
-    # resp = google.authorized_response()
     if resp is None:
         return False
     session['google_token'] = (resp['access_token'], '')
-    return url_for('main_page')
+    return redirect(url_for('main_page'))
 
 
 @app.route('/')
