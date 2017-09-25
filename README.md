@@ -1,3 +1,5 @@
+Setup:
+	$ pip install -r requirements.txt
 On First Run:
     $ export FLASK_APP=app.py
 After:
