@@ -1,29 +1,44 @@
+{% extends "layout.html" %}
+
+{% block head %}
 <title> Account </title>
-<div>
-    Username: @{{ username }}
-    <button> Change Username </button>
-</div>
-<div>
-    Picture
-</div>
+{% endblock %}
 
-<div>
-    Privacy Settings
-    <!-- Some sort of drop down arrow with privacy setting options, probably a class with semantic? -->
-</div>
+{% block body %}
+{% if not existing_user %}
+    <div>
+        No user exists with the name {{user_data["username"]}}. Sorry!
+    </div>
+{% else %}
+    <div>
+        Username: @{{ user_data["username"] }}
+        <button> Change Username </button>
+    </div>
+    <div>
+        Picture
+    </div>
 
-<div>
-    Block New User
-    <form>
-        <input></input>
-    </form>
-</div>
+    <div>
+        Privacy Settings:  {{ user_data["privacy"]}}
+        <!-- Some sort of drop down arrow with privacy setting options, probably a class with semantic? -->
+    </div>
 
-<div>
-    Blocked Users
-    <li>
-        Jane Doe
-    </li>
-</div>
+    <div>
+        Block New User
+        <form>
+            <input value="User goes here"></input>
+        </form>
+    </div>
+
+    <div>
+        Blocked Users
+        {% for user in user_data["blocked_users"] %}
+            <li>
+                {{ user }}
+            </li>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}
 
 

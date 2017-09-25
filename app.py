@@ -21,9 +21,15 @@ def account_page(username):
     """
     Loads account page
     """
-    #Obtain the user's information somehow and package it in a dictonary
-    #Get it from the db based on a session token?
-    return render_template('account_page.html', username=username)
+    #Check to see if a user exists with that name
+    existing_user=True
+    user_data = {"username":username}
+    if existing_user:
+        #Temp List for now
+        blocked = ['BigJim', 'Jerkface420', 'GuyFerrari']
+        #Obtain the user's information somehow and package it in a dictonary
+        user_data.update({"blocked_users": blocked, "privacy":'all'})
+    return render_template('account_page.html', user_data=user_data, existing_user=existing_user)
 
 if __name__ == "__main__":
     app.run()
