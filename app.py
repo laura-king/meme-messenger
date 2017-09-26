@@ -42,7 +42,7 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if get_token() is None:
-            return redirect(url_for('login'))
+            return redirect(url_for('main_page'))
         return f(*args, **kwargs)
     return decorated_function
 
