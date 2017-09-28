@@ -3,3 +3,5 @@ DEBUG=False
 SECRET_KEY= # initialize before using, see readme
 GOOGLE_OAUTH_CLIENTID= #initialize before using, see readme
 GOOGLE_OAUTH_SECRET= #initialize before using, see readme
+SQLALCHEMY_DATABASE_URI='sqlite:///mongo.db'
+SQLALCHEMY_TRACK_MODIFICATIONS=False
