@@ -9,7 +9,7 @@ Python 3.6+
 ### Installing libraries:
 
 ```bash
-$ pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 ### Setting up Google OAuth for the server:
 
