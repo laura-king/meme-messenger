@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+<h1 class="ui header">Create Account</h1>
+<h4 class="ui header">No account found for {{ email }}, please select a username:</h4>
+<form class="ui form" method="post">
+  <div class="field">
+      <label>Name</label>
+      <input type="text" name="username" placeholder="username">
+  </div>
+  <button  class="ui button" type="submit">Submit</button>
+</form>
+{% endblock %}

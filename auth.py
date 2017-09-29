@@ -1,9 +1,13 @@
 from flask import Blueprint, render_template, url_for, session, redirect
 from functools import wraps
 from flask_oauthlib.client import OAuth
+from models import user_exists
 
+# constants for accessing session
+GOOGLE_TOKEN = 'google_token'
+GOOGLE_EMAIL = 'google_email'
 
-auth = Blueprint('auth', 'auth', url_prefix='/auth')
+auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 
 # config for the blueprint, holds variable settings
@@ -44,21 +48,39 @@ def configure_oauth(client_id, client_secret, server_url):
 def get_token():
     """
     get user's session token
-    :return: user's session token as a string, if one is not stored return None
+    :return: user's session token as a string, if one is not in the session (aka user is not logged in) return None
     """
-    return session.get('google_token') if 'google_token' in session else None
+    return session.get(GOOGLE_TOKEN) if GOOGLE_TOKEN in session else None
+
+
+def get_email():
+    """
+    get user's Google account email, stores in session for future use if not already there
+    :return: user's email as a string, if the user's token is not in the session (aka user is not logged in) return None
+    """
+    if GOOGLE_TOKEN not in session:
+        return None
+    if GOOGLE_EMAIL not in session:
+        session[GOOGLE_EMAIL] = google.get('userinfo').data['email'] \
+            if GOOGLE_TOKEN in session else None
+    return session[GOOGLE_EMAIL]
 
 
 def login_required(f):
     """
     decorator to add to route when a login is required for that route
     :param f: function to decorate
-    :return: redirect to login if user not logged in, else the function passed in
+    :return: redirect to main page if user not logged in, create account page for user without account,
+    else go to page requested
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if get_token() is None:
             return redirect(url_for('main_page'))
+        # check if user exists in the system, does not use
+        # user_exists in users because of circular import
+        elif not user_exists(get_email()):
+            return redirect(url_for('users.create_account'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -75,13 +97,14 @@ def login():
 
 
 @auth.route('/logout')
-@login_required
 def logout():
     """
     logout the user from their session
     :return: redirect to main page
     """
-    session.pop('google_token')
+    session.pop(GOOGLE_TOKEN)
+    if GOOGLE_EMAIL in session:
+        session.pop(GOOGLE_EMAIL)
     return redirect(url_for('main_page'))
 
 
@@ -89,10 +112,13 @@ def logout():
 def authorized():
     """
     used by oauth to log user in
-    :return: main page if login successful, login failed page otherwise
+    :return: main page if login successful, create user page if email does not exist in system, login failed page otherwise
     """
     resp = google.authorized_response()
     if resp is None:
         return render_template('login_failed.html')
-    session['google_token'] = (resp['access_token'], '')
+    # add user's token to the session
+    session[GOOGLE_TOKEN] = (resp['access_token'], '')
+    if not user_exists(get_email()):
+        return redirect(url_for('users.create_account'))
     return redirect(url_for('main_page'))

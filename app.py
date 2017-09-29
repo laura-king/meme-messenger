@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import auth as auth
+import users as users
 from models import db
 
 # start and configure app
@@ -9,6 +10,7 @@ db.init_app(app)
 
 # register blueprints
 app.register_blueprint(auth.auth)
+app.register_blueprint(users.users)
 
 
 # configure oauth with the client id, client secret, and server url

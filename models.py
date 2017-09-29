@@ -15,3 +15,21 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+# helper functions for user
+
+
+def user_exists(email):
+    """
+    function to see if user for a given email exists
+    :return: true if user exists, false otherwise
+    """
+    return User.query.filter_by(email=email).first() is not None
+
+
+def username_taken(username):
+    """
+    function to see if an existing user has a given username
+    :return: true if username is taken, false otherwise
+    """
+    return User.query.filter_by(username=username).first() is not None
