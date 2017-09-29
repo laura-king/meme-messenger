@@ -6,8 +6,8 @@ from flask_oauthlib.client import OAuth
 auth = Blueprint('auth', 'auth', url_prefix='/auth')
 
 
-# config for the blueprint, holds variable settings brought in from the
-# app config
+# config for the blueprint, holds variable settings
+# brought in from the app config
 config = {}
 
 oauth = OAuth()
@@ -40,6 +40,7 @@ def configure_oauth(client_id, client_secret, server_url):
     config['SERVER_NAME'] = server_url
 
 
+@google.tokengetter
 def get_token():
     """
     get user's session token
