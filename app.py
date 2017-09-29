@@ -1,6 +1,6 @@
 from flask import Flask, render_template
+import auth as auth
 from models import db
-import blueprints.auth as auth
 
 # start and configure app
 app = Flask(__name__)
