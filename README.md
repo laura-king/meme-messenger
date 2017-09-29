@@ -17,7 +17,7 @@ Follow [this guide](https://developers.google.com/identity/protocols/OAuth2#basi
 
 In your `Authorized JavaScript origins` put: `http://[your application ip/domain]:[port]`
 
-In your `Authorized redirect URIs` put: `http://[your application ip/domain]:[port]` and  `http://[your application ip/domain]:[port]/authorized`
+In your `Authorized redirect URIs` put: `http://[your application ip/domain]:[port]` and  `http://[your application ip/domain]:[port]/auth/authorized`
 
 Use the `Client ID` and `Client secret` from that page in your server's configuration file
 
