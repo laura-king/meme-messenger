@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 {% extends "layout.html" %}
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% block title %}Conversation - {% endblock %}
+{%  block head %}
+    {{ super() }}
+{% endblock %}
+{% block body %}
+<div class="page"> <!-- Full page -->
 
-</body>
+    <div class="ui fluid container"> <!-- Header - Conversation Info -->
+        <h2 class="ui center aligned icon header">
+            <i class="circular users icon"></i>
+            Conversation with {{ username }}
+        </h2>
+    </div>
+
+    <div class="ui fluid container"> <!-- Message List -->
+        <div class="ui massive vertical divided list">
+            {% for message in messages %}
+                <div class="item">
+                    <div class="right floated content">
+                    {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="ui fluid container"> <!-- Melissa's Message Input -->
+        Buttons here
+    </div>
+</div>
+{% endblock %}
 </html>

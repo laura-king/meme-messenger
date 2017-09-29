@@ -84,6 +84,12 @@ def authorized():
     return redirect(url_for('main_page'))
 
 
+@app.route('/conversation')
+def converse():
+    # Implement socket functionality
+    conversationMessages = ["Message 1", "Message 2", "Message 3", "Message 4", "Message 5", "Message 6"]
+    return render_template('conversation.html', messages=conversationMessages, username="Mack Bowe")
+
 @app.route('/')
 def main_page():
     """
