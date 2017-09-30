@@ -4,12 +4,18 @@
 
 Python 3.6+
 
+Node.js 6.11+
+
 ## Setup:
 
 ### Installing libraries:
 
 ```bash
 $ pip3 install -r requirements.txt
+$ npm install -g gulp
+$ npm install
+$ cd semantic
+$ gulp build
 ```
 ### Setting up Google OAuth for the server:
 

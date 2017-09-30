@@ -1,0 +1,23 @@
+{
+  "name": "meme-messenger",
+  "version": "1.0.0",
+  "description": "Python 3.6+",
+  "main": "index.js",
+  "dependencies": {
+    "semantic-ui": "^2.2.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laura-king/meme-messenger.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laura-king/meme-messenger/issues"
+  },
+  "homepage": "https://github.com/laura-king/meme-messenger#readme"
+}
