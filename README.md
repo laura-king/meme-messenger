@@ -12,10 +12,8 @@ Node.js 6.11+
 
 ```bash
 $ pip3 install -r requirements.txt
-$ npm install -g gulp
-$ npm install
-$ cd semantic
-$ gulp build
+$ npm install -g bower
+$ bower install
 ```
 ### Setting up Google OAuth for the server:
 

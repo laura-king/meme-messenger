@@ -2,6 +2,4 @@
 *.pyc
 *.DS_Store
 app.cfg
-node_modules/
-semantic/
-static/semantic-ui
+static/bower_components
