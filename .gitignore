@@ -3,3 +3,4 @@
 *.DS_Store
 app.cfg
 mongo.db
+static/bower_components
