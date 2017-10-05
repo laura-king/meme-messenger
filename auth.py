@@ -91,6 +91,9 @@ def login():
     send user to google oauth page
     :return: authorization results, goes to authorize endpoint next
     """
+    # if user already logged in, redirect
+    if get_token() is not None:
+        return redirect(url_for('main_page'))
     callback_url = 'http://' + \
         config['SERVER_NAME'] + url_for('auth.authorized')
     return google.authorize(callback=callback_url)

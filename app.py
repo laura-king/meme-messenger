@@ -27,15 +27,7 @@ def main_page():
     """
     Loads main page
     """
-    return render_template('base_page.html')
-
-
-@app.route('/welcome')
-def welcome_page():
-    """
-    Loads welcome page
-    """
-    return render_template('welcome.html')
+    return render_template('index.html', logged_in=(auth.get_token() is not None))
 
 
 @app.route('/account/<username>')
