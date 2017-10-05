@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 import auth as auth
 import users as users
-from models import db
+from models import db, get_username_from_email
 
 # start and configure app
 app = Flask(__name__)
@@ -27,7 +27,8 @@ def main_page():
     """
     Loads main page
     """
-    return render_template('index.html', logged_in=(auth.get_token() is not None))
+    username = get_username_from_email(auth.get_email())
+    return render_template('index.html', logged_in=auth.is_logged_in(), username=username)
 
 
 @app.route('/account/<username>')

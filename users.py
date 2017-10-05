@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for
-from auth import get_token, get_email
+from auth import is_logged_in, get_email
 from models import User, db, user_exists, username_taken
 
 users = Blueprint('users', __name__, url_prefix='/users')
@@ -8,7 +8,7 @@ users = Blueprint('users', __name__, url_prefix='/users')
 @users.route('/create_account', methods=['GET', 'POST'])
 def create_account():
     # only allow through if user has logged in via oauth
-    if get_token() is not None:
+    if is_logged_in():
         # problem with form submission
         problem = None
         email = get_email()

@@ -66,6 +66,10 @@ def get_email():
     return session[GOOGLE_EMAIL]
 
 
+def is_logged_in():
+    return get_token() is not None
+
+
 def login_required(f):
     """
     decorator to add to route when a login is required for that route
@@ -92,7 +96,7 @@ def login():
     :return: authorization results, goes to authorize endpoint next
     """
     # if user already logged in, redirect
-    if get_token() is not None:
+    if is_logged_in():
         return redirect(url_for('main_page'))
     callback_url = 'http://' + \
         config['SERVER_NAME'] + url_for('auth.authorized')

@@ -33,3 +33,8 @@ def username_taken(username):
     :return: true if username is taken, false otherwise
     """
     return User.query.filter_by(username=username).first() is not None
+
+
+def get_username_from_email(email):
+    user = User.query.filter_by(email=email).first()
+    return user.username if user is not None else None
