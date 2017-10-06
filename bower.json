@@ -1,0 +1,12 @@
+{
+  "name": "meme-messenger",
+  "description": "",
+  "main": "index.js",
+  "authors": [],
+  "license": "ISC",
+  "homepage": "https://github.com/laura-king/meme-messenger",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "semantic": "^2.2.13"
+  }
+}
