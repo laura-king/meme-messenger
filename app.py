@@ -1,11 +1,7 @@
-from flask import Flask, render_template, url_for, session, redirect, request
-from functools import wraps
-from flask_oauthlib.client import OAuth
 import os
 from werkzeug import secure_filename
-
-
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import auth as auth
 import users as users
 from models import db, get_username_from_email
 
@@ -27,40 +23,6 @@ auth.configure_oauth(
 
 # Routes
 
-
-@app.route('/login')
-def login():
-    """
-    send user to google oauth page
-    :return: authorization results, goes to authorize endpoint next
-    """
-    callback_url = 'http://' + \
-        app.config['SERVER_NAME'] + url_for('authorized')
-    return google.authorize(callback=callback_url)
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    """
-    logout the user from their session
-    :return: redirect to main page
-    """
-    session.pop('google_token')
-    return redirect(url_for('main_page'))
-
-
-@app.route('/authorized')
-def authorized():
-    """
-    used by oauth to log user in
-    :return: main page if login successful, login failed page otherwise
-    """
-    resp = google.authorized_response()
-    if resp is None:
-        return render_template('login_failed.html')
-    session['google_token'] = (resp['access_token'], '')
-    return redirect(url_for('main_page'))
 
 
 @app.route('/conversation')
