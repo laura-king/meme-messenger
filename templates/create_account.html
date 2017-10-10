@@ -1,0 +1,16 @@
+{% extends "centered_page.html" %}
+
+
+{% block content %}
+<h2 class="ui header">Create Account for {{ email }}</h2>
+{% if problem != None %}
+<div class="ui error message"> {{ problem }} </div>
+{% endif %}
+<form class="ui form" method="post">
+  <div class="field">
+      <label>Username</label>
+      <input name="username" placeholder="Username">
+  </div>
+  <button class="ui large fluid blue button">Submit</button>
+</form>
+{% endblock %}
