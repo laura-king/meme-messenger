@@ -1,0 +1,23 @@
+{% extends "centered_page.html" %}
+
+
+{% block content %}
+<h2 class="ui header">Meme Messenger</h2>
+{% if logged_in %}
+{% if username != None %}
+    <h4 class="ui header">Welcome {{ username }}</h4>
+{% endif %}
+<form class="ui form" action="{{ url_for('auth.logout') }}">
+<button class="ui large fluid grey button">
+    Logout
+</button>
+</form>
+{% else %}
+<form class="ui form" action="{{ url_for('auth.login') }}">
+<button class="ui large fluid blue google button">
+    <i class="google icon"></i>
+    Login With Google
+</button>
+</form>
+{% endif %}
+{% endblock %}
