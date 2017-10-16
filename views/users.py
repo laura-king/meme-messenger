@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for
-from auth import is_logged_in, get_email
+
 from models import User, db, user_exists, username_taken
+from views.auth import is_logged_in, get_email
 
 users = Blueprint('users', __name__, url_prefix='/users')
 
@@ -29,3 +30,23 @@ def create_account():
                     return redirect(url_for('main_page'))
         return render_template('create_account.html', email=email, problem=problem)
     return redirect(url_for('main_page'))
+
+
+@users.route('/account/<username>')
+def account_page(username):
+    """
+    Loads account page
+    """
+    # See if this user is the user looking
+    # Check to see if a user exists with that name
+    existing_user = True
+    user_data = {"username": username}
+    if existing_user:
+        # Temp List for now
+        blocked = ['BigJim', 'Jerkface420', 'GuyFerrari']
+        # Obtain the user's information somehow and package it in a dictionary
+        user_data.update({"blocked_users": blocked, "privacy": 'friends'})
+    return render_template(
+        'account_page.html',
+        user_data=user_data,
+        existing_user=existing_user)
