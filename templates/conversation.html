@@ -6,20 +6,46 @@
     {{ super() }}
 {% endblock %}
 {% block body %}
-<div class="page"> <!-- Full page -->
-
-    <div class="ui fluid container"> <!-- Header - Conversation Info -->
-        <h2 class="ui center aligned icon header">
-            <i class="circular users icon"></i>
-            Conversation with {{ username }}
-        </h2>
+    <div class="ui fluid container">
+    <div class="ui left fixed vertical menu">
+        <a class="item">
+            <h4 class="ui header">Meme Messenger</h4>
+            <p>If U can Meme iT, Dreme It TM</p>
+        </a>
+        <a class="teal item">
+            Bill Tarr
+            <div class="ui teal left pointing label">1</div>
+        </a>
+          <a class="item">
+            Melissa Laskowski
+            <div class="ui label">51</div>
+          </a>
+          <a class="item">
+            Adam Kuhn
+            <div class="ui label">1</div>
+          </a>
+            <a class="item">
+            Laura King
+            <div class="ui label">4</div>
+          </a>
+          <div class="item">
+            <div class="ui transparent icon input">
+              <input type="text" placeholder="Search conversations...">
+              <i class="search icon"></i>
+            </div>
+          </div>
     </div>
+
+    <h2 class="ui center aligned icon header">
+        <i class="circular users icon"></i>
+        Conversation with {{ username }}
+    </h2>
 
     <div class="ui fluid container"> <!-- Message List -->
         <div class="ui massive vertical divided list">
             {% for message in messages %}
                 <div class="item">
-                    <div class="right floated content">
+                    <div class="right floated padded content">
                     {{ message }}
                     </div>
                 </div>
@@ -28,11 +54,15 @@
     </div>
 
     <div class="ui fluid container">
-              <form method="POST" enctype="multipart/form-data">
-        <input type=file name = "file" value="Upload">
-    </form>
-        <button>Select</button>
-        <button>Random</button>
+        <div class="ui buttons">
+            <form class="ui form" method="POST" enctype="multipart/form-data">
+                <input type=file name = "file" value="Upload">
+            </form>
+            <button class="ui primary button">Select</button>
+            <button class="ui button">Random</button>
+        </div>
+    </div>
+
     </div>
 </div>
 {% endblock %}
