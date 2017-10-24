@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for
 
-from models import User, db, user_exists, username_taken
-from views.auth import is_logged_in, get_email
+from models.user import User, db, user_exists, username_taken, get_id_from_username
+from models.blocked import Blocked, block_user
+from views.auth import is_logged_in, get_email, get_username
 
 users = Blueprint('users', __name__, url_prefix='/users')
 
@@ -25,7 +26,7 @@ def create_account():
                     problem = 'Username is already taken'
                 else:
                     with current_app.app_context():
-                        db.session.add(User(username=username, email=email))
+                        db.session.add(User(username=username, email=email, privacy='everyone'))
                         db.session.commit()
                     return redirect(url_for('main_page'))
         return render_template('create_account.html', email=email, problem=problem)
@@ -39,14 +40,43 @@ def account_page(username):
     """
     # See if this user is the user looking
     # Check to see if a user exists with that name
-    existing_user = True
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return '',404
+    block = Blocked.query.filter_by(user=user.id).all()
     user_data = {"username": username}
-    if existing_user:
-        # Temp List for now
-        blocked = ['BigJim', 'Jerkface420', 'GuyFerrari']
-        # Obtain the user's information somehow and package it in a dictionary
-        user_data.update({"blocked_users": blocked, "privacy": 'friends'})
+    blocked = block
+    privacy = user.privacy
+
+    # Obtain the user's information somehow and package it in a dictionary
+    user_data.update({"blocked_users": blocked, "privacy": privacy})
     return render_template(
         'account_page.html',
-        user_data=user_data,
-        existing_user=existing_user)
+        user_data=user_data)
+
+@users.route('/block/', methods=['GET', 'POST'])
+def block_user():
+    """
+    Blocks a user submitted by form from account page
+    """
+    if request.method == 'POST':
+        username = get_username()
+        user = get_id_from_username(username)
+        to_block = get_id_from_username(request.form['block_user'])
+        if not to_block:
+            #TODO: some sort of error if blockee doesn't exist
+            return redirect(url_for('users.account_page', username=username))
+        block_user(user, to_block)
+    return redirect(url_for('users.account_page', usename=username))
+
+
+
+
+
+
+
+
+
+
+
+

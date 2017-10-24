@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 
-from models import db, get_username_from_email
+from models.shared import db
+import models.blocked
+import models.user
 from views import auth as auth, users as users
 
 # start and configure app
@@ -27,7 +29,7 @@ def main_page():
     """
     Loads main page
     """
-    username = get_username_from_email(auth.get_email())
+    username = models.user.get_username_from_email(auth.get_email())
     return render_template('index.html', logged_in=auth.is_logged_in(), username=username)
 
 
