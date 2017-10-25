@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for
 
-from models.user import User, db, user_exists, username_taken, get_id_from_username
-from models.blocked import Blocked, block_user
+from models.user import User, db, user_exists, username_taken, get_id_from_username, get_username_from_id
+from models.blocked import Blocked, block_user_db
 from views.auth import is_logged_in, get_email, get_username
 
 users = Blueprint('users', __name__, url_prefix='/users')
@@ -43,13 +43,20 @@ def account_page(username):
     user = User.query.filter_by(username=username).first()
     if not user:
         return '',404
-    block = Blocked.query.filter_by(user=user.id).all()
     user_data = {"username": username}
-    blocked = block
+
+    blocked_group = Blocked.query.filter_by(user=user.id).all()
+
+    blocked_names = []
+    if len(blocked_group) > 1:
+        for blocked_user in blocked_group:
+            username = get_username_from_id(blocked_user.blocked)
+            blocked_names.append(username)
+    elif len(blocked_group) == 1:
+        blocked_names.append(get_username_from_id(blocked_group[0].blocked))
     privacy = user.privacy
 
-    # Obtain the user's information somehow and package it in a dictionary
-    user_data.update({"blocked_users": blocked, "privacy": privacy})
+    user_data.update({"blocked_users": blocked_names, "privacy": privacy})
     return render_template(
         'account_page.html',
         user_data=user_data)
@@ -61,13 +68,14 @@ def block_user():
     """
     if request.method == 'POST':
         username = get_username()
-        user = get_id_from_username(username)
+        print(username)
+        user_id = get_id_from_username(username)
         to_block = get_id_from_username(request.form['block_user'])
-        if not to_block:
+        if not to_block or to_block==user_id:
             #TODO: some sort of error if blockee doesn't exist
             return redirect(url_for('users.account_page', username=username))
-        block_user(user, to_block)
-    return redirect(url_for('users.account_page', usename=username))
+        block_user_db(user_id, to_block)
+    return redirect(url_for('users.account_page', username=username))
 
 
 

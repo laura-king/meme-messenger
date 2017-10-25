@@ -26,14 +26,12 @@ def user_exists(email):
     """
     return User.query.filter_by(email=email).first() is not None
 
-
 def username_taken(username):
     """
     function to see if an existing user has a given username
     :return: true if username is taken, false otherwise
     """
     return User.query.filter_by(username=username).first() is not None
-
 
 def get_username_from_email(email):
     user = User.query.filter_by(email=email).first()
@@ -42,3 +40,7 @@ def get_username_from_email(email):
 def get_id_from_username(username):
     user = User.query.filter_by(username=username).first()
     return user.id if user is not None else None
+
+def get_username_from_id(id):
+    user = User.query.filter_by(id=id).first()
+    return user.username if user is not None else None

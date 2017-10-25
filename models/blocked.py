@@ -12,15 +12,15 @@ class Blocked(db.Model):
         self.blocked = blocked
 
 
-def block_user(user, to_block):
+def block_user_db(user_id, to_block):
     """
     Adds a user to a blocked list of users
 
     Args:
-    user - user ID of a user seeking to block another user
+    user_id - user ID of a user seeking to block another user
     to_block - the to be blocked userID
     """
-    db.session.add(Blocked(user=user, blocked=to_block))
+    db.session.add(Blocked(user=user_id, blocked=to_block))
     db.session.commit()
     return
 
