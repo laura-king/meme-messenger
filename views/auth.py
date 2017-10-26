@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, session, redirect
 from functools import wraps
 from flask_oauthlib.client import OAuth
-from models import user_exists
+from models.user import user_exists, get_username_from_email
 
 # constants for accessing session
 GOOGLE_TOKEN = 'google_token'
@@ -64,6 +64,13 @@ def get_email():
         session[GOOGLE_EMAIL] = google.get('userinfo').data['email'] \
             if GOOGLE_TOKEN in session else None
     return session[GOOGLE_EMAIL]
+
+def get_username():
+    """
+    gets user's username from database from their email used for oauth.
+    :return: user's username as string
+    """
+    return get_username_from_email(get_email())
 
 
 def is_logged_in():

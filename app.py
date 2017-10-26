@@ -1,7 +1,9 @@
 from flask import Flask, render_template
-import auth as auth
-import users as users
-from models import db, get_username_from_email
+
+from models.shared import db
+import models.blocked
+import models.user
+from views import auth as auth, users as users
 
 # start and configure app
 app = Flask(__name__)
@@ -27,28 +29,8 @@ def main_page():
     """
     Loads main page
     """
-    username = get_username_from_email(auth.get_email())
+    username = models.user.get_username_from_email(auth.get_email())
     return render_template('index.html', logged_in=auth.is_logged_in(), username=username)
-
-
-@app.route('/account/<username>')
-def account_page(username):
-    """
-    Loads account page
-    """
-    # See if this user is the user looking
-    # Check to see if a user exists with that name
-    existing_user = True
-    user_data = {"username": username}
-    if existing_user:
-        # Temp List for now
-        blocked = ['BigJim', 'Jerkface420', 'GuyFerrari']
-        # Obtain the user's information somehow and package it in a dictionary
-        user_data.update({"blocked_users": blocked, "privacy": 'friends'})
-    return render_template(
-        'account_page.html',
-        user_data=user_data,
-        existing_user=existing_user)
 
 
 if __name__ == "__main__":
