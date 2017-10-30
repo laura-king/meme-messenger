@@ -3,4 +3,5 @@
 *.DS_Store
 app.cfg
 meme.db
+mongo.db
 static/bower_components
