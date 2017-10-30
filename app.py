@@ -3,6 +3,7 @@ from flask import Flask, render_template
 from models.shared import db
 import models.blocked
 import models.user
+import models.friendship
 from views import auth as auth, users as users
 
 # start and configure app
