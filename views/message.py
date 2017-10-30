@@ -19,7 +19,6 @@ def converse(messaging_user=""):
 
         #check log in and grab user name
         main_user = get_username()
-        print(main_user)
 
         #if no user is selected grab the most recent convo
         if messaging_user == "":
@@ -31,7 +30,7 @@ def converse(messaging_user=""):
 
     else:
         #send to home screen if not logged in user
-        return redirect(url_for('main_page'))
+        return redirect('/auth/login')
 
     conversationMessages = ["Message 1", "Message 2", "Message 3", "Message 4", "Message 5", "Message 6"]
     return render_template('conversation.html', messages=conversationMessages, username=messaging_user)
