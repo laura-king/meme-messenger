@@ -2,6 +2,5 @@
 *.pyc
 *.DS_Store
 app.cfg
-meme.db
-mongo.db
+*.db
 static/bower_components
