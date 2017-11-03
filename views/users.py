@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, current_app, redirect, ur
 
 from models.user import User, db, user_exists, username_taken, get_id_from_username, get_username_from_id
 from models.blocked import Blocked, block_user_db
+from models.friendship import Friendship, add_friend_db
 from views.auth import is_logged_in, get_email, get_username
 
 users = Blueprint('users', __name__, url_prefix='/users')
@@ -68,7 +69,6 @@ def block_user():
     """
     if request.method == 'POST':
         username = get_username()
-        print(username)
         user_id = get_id_from_username(username)
         to_block = get_id_from_username(request.form['block_user'])
         if not to_block or to_block==user_id:
@@ -79,12 +79,17 @@ def block_user():
 
 @users.route('/friendship', methods=['GET', 'POST'])
 def add_friend():
-
+    """
+    Adds a friend submitted by form from the account page
+    """
     if request.method == 'POST':
+        user_id =  get_id_from_username(get_username())
         friend_to_add = get_id_from_username(request.form['add_user'])
-    return
-    #I don't know what the redirect was
-    #return redirect(url_for('users.messaging_page'))
+        if not friend_to_add or friend_to_add==user_id:
+            return redirect(url_for('users.account_page', username=username))
+        add_friend_db(user_id, friend_to_add)
+    return redirect(url_for('users.account_page', username=username))
+
 
 
 
