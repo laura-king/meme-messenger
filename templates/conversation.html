@@ -6,7 +6,6 @@
     {{ super() }}
 {% endblock %}
 {% block body %}
-
     <!-- Nav bar -->
     <nav class="ui fixed fluid borderless huge menu">
     
@@ -36,42 +35,55 @@
         
     </nav>
 
-
+    
     <div class="ui grid">
-        <div class="row">
 
+            <div class="two column row">
             <!-- Friends List -->
-            <div class="column" id="sidebar">
-                <div class="ui secondary vertical fluid menu">
-                    <a class="active item">
+            <div class="left floated three wide column" id="sidebar">
+                <div class="ui vertical fluid pointing tabular menu">
+                    <div class="ui grey ribbon big label">
+                        <i class="child icon"></i>
+                        <b>Friends</b>
+                    </div>
+
+                    <div class="item active" data-tab="bill-tab">
                         Bill Tarr
-                    </a>
-                    <a class="item">
+                    </div>
+                    <div class="item" data-tab="mel-tab">
                         Melissa Laskowski
-                    </a>
-                    <a class="item">
+                    </div>
+                    <div class="item" data-tab="adam-tab">
                         Adam Kuhn
                         <div class="ui label">
                             <i class="mail icon"></i> 420
                         </div>
-                    </a>
-                    <a class="item">
+                    </div>
+                    <div class="item" data-tab="laura-tab">
                         Laura King
-                    </a>
-                    <a class="item">
+                    </div>
+                    <div class="item" data-tab="mack-tab">
                         Mackenzie Bowe
                         <div class="ui label">
                                 <i class="mail icon"></i> 666
                         </div>
-                    </a>
+                    </div>
+                    
+                    <div class="item">
+                        <div class="ui icon input">
+                            <input type="text" placeholder="Add a friend...">
+                            <i class="search icon"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <!-- Chat area -->
-            <div class="column" id="content">
+            <div class="thirteen wide column" id="content">
                 <div class="ui grid">
+
+                    <!-- Chat prompt (Start new, Chatting with, Welcome..) -->
                     <div class="row">
-                        <!-- Chat prompt (Start new, Chatting with, Welcome..) -->
                         <h2 class="ui center aligned icon header">
                                 <i class="circular users icon"></i>
                                 {% if new_user == True %}
@@ -84,80 +96,69 @@
 
                     <div class="ui divider"></div>
 
-                    <!-- Message List -->
-                    <div class="ui fluid container"> 
-                        <div class="ui massive vertical divided list">
-                            {% for message in messages %}
-                                <div class="item">
-                                    <div class="right floated padded content">
-                                    {{ message }}
+                    <!--Attached conversation content areas. These will be dynamically generated. -->
+                    <div class="row">
+                    <div class="ui right attached tab segment active" data-tab="bill-tab">
+                        <h1> Hey bill </h1>
+                    </div>
+                    <div class="ui right attached tab segment" data-tab="mel-tab">
+                        <h1> Hey mel </h1>
+                        <!-- Message List -->
+                        <div class="ui fluid container"> 
+                            <div class="ui massive vertical divided list">
+                                {% for message in messages %}
+                                    <div class="item">
+                                        <div class="right floated padded content">
+                                        {{ message }}
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-
+                    <div class="ui right attached tab segment" data-tab="adam-tab">
+                        <h1> Hey adam </h1>
+                    </div>
+                    <div class="ui right attached tab segment" data-tab="laura-tab">
+                        <h1> Hey laura </h1>
+                    </div>
+                    <div class="ui right attached tab segment" data-tab="mack-tab">
+                        <h1> Hey mack </h1>
+                    </div>
+                    </div>
 
                     <!--Chatbar, buttons -->
-                    <div class="ui fluid container">
-                        <div class="ui buttons">
-                            <form class="ui form" method="POST" enctype="multipart/form-data">
-                                <input type=file name = "file" value="Upload">
-                                <button class="ui button">
-                                    <i class="upload icon"></i>
-                                    Upload
+                    <div class="one column centered row">
+                        <div class="ui footer fixed raised centered segment">
+                            <div class="ui buttons">
+                                <form class="ui form" method="POST" enctype="multipart/form-data">
+                                    <input type=file name = "file" value="Upload">
+                                    <button class="ui button">
+                                        <i class="upload icon"></i>
+                                        Upload
+                                    </button>
+                                </form>
+                                <button class="ui primary button">
+                                    <i class="search icon"></i>
+                                    Search
                                 </button>
-                            </form>
-                            <button class="ui primary button">
-                                <i class="search icon"></i>
-                                Search
-                            </button>
-                            <button class="ui button">
-                                <i class="random icon"></i>
-                                Random
-                            </button>
+                                <button class="ui button">
+                                    <i class="random icon"></i>
+                                    Random
+                                </button>
+                            </div>
                         </div>
                     </div>
+
                     
+
                 </div>
             </div>
-            <!-- End chat area-->
-
-        </div>
-    </div>
-                
-
-    <!--
-    <div class="ui fluid container">
-    <div class="ui left fixed vertical menu">
-        <a class="item">
-            <h4 class="ui header">Meme Messenger</h4>
-            <p>If U can Meme iT, Dreme It TM</p>
-        </a>
-        <a class="teal item">
-            Bill Tarr
-            <div class="ui teal left pointing label">1</div>
-        </a>
-          <a class="item">
-            Melissa Laskowski
-            <div class="ui label">51</div>
-          </a>
-          <a class="item">
-            Adam Kuhn
-            <div class="ui label">1</div>
-          </a>
-            <a class="item">
-            Laura King
-            <div class="ui label">4</div>
-          </a>
-          <div class="item">
-            <div class="ui transparent icon input">
-              <input type="text" placeholder="Search conversations...">
-              <i class="search icon"></i>
             </div>
-          </div>
+            <!-- End chat area-->
+        
+
     </div>
--->
 
 
 <style type="text/css">
@@ -216,5 +217,12 @@
       border-bottom: 2px solid #eee !important;
     }
   </style>
+
+<script>
+$(document).ready(function() {
+    $(' .menu .item').tab();
+});
+</script>
+
 {% endblock %}
 </html>
