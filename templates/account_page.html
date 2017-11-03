@@ -13,51 +13,52 @@
 </div>
 <button class="negative ui button">Change Username</button>
 
-
-<div class="ui">
-    <h3 class="ui header">Privacy Settings </h3>
-    <div class="ui form">
-        <div class="grouped fields right floated">
-            <label>Profile Visiblity</label>
-            <div class="field">
-                <div class="ui radio checkbox">
-                    {% if user_data["privacy"]=="everyone" %}
-                        <input type="radio" name="privacy" checked="checked">
-                    {% else %}
-                        <input type="radio" name="privacy">
-                    {% endif %}
-                    <label>Public</label>
+{% if user_data["view_self"] %}
+    <div class="ui">
+        <h3 class="ui header">Privacy Settings </h3>
+        <div class="ui form">
+            <div class="grouped fields right floated">
+                <label>Profile Visiblity</label>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        {% if user_data["privacy"]=="everyone" %}
+                            <input type="radio" name="privacy" checked="checked">
+                        {% else %}
+                            <input type="radio" name="privacy">
+                        {% endif %}
+                        <label>Public</label>
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <div class="ui radio checkbox">
-                    {% if user_data["privacy"]=="friends" %}
-                        <input type="radio" name="privacy" checked="checked">
-                    {% else %}
-                        <input type="radio" name="privacy">
-                    {% endif %}                        
-                    <label>Friends Only</label>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        {% if user_data["privacy"]=="friends" %}
+                            <input type="radio" name="privacy" checked="checked">
+                        {% else %}
+                            <input type="radio" name="privacy">
+                        {% endif %}                        
+                        <label>Friends Only</label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div>
-    <h3 class="ui header">Blocked Users</h3>
-    {% for user in user_data["blocked_users"] %}
-        <li>
-            {{ user }}
-        </li>
-    {% endfor %}
-</div>
-<div>
-    <h4 class="ui header">Block New User</h3>
-    <form action="{{ url_for('users.block_user') }}" method="post">
-        <input name="block_user" id="block_user"></input>
-        <button>Submit</button>
-    </form>
-</div>
+    <div>
+        <h3 class="ui header">Blocked Users</h3>
+        {% for user in user_data["blocked_users"] %}
+            <li>
+                {{ user }}
+            </li>
+        {% endfor %}
+    </div>
+    <div>
+        <h4 class="ui header">Block New User</h3>
+        <form action="{{ url_for('users.block_user') }}" method="post">
+            <input name="block_user" id="block_user"></input>
+            <button>Submit</button>
+        </form>
+    </div>
+{% endif %}
 {% endblock %}
 
 

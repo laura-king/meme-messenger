@@ -41,23 +41,27 @@ def account_page(username):
     """
     # See if this user is the user looking
     # Check to see if a user exists with that name
+
+    current_user = get_username()
+    viewing_self = (username==current_user)
+    user_data = {"username": username, "view_self": viewing_self}
+
     user = User.query.filter_by(username=username).first()
     if not user:
         return '',404
-    user_data = {"username": username}
+    if viewing_self:
+        blocked_group = Blocked.query.filter_by(user=user.id).all()
 
-    blocked_group = Blocked.query.filter_by(user=user.id).all()
+        blocked_names = []
+        if len(blocked_group) > 1:
+            for blocked_user in blocked_group:
+                username = get_username_from_id(blocked_user.blocked)
+                blocked_names.append(username)
+        elif len(blocked_group) == 1:
+            blocked_names.append(get_username_from_id(blocked_group[0].blocked))
+        privacy = user.privacy
 
-    blocked_names = []
-    if len(blocked_group) > 1:
-        for blocked_user in blocked_group:
-            username = get_username_from_id(blocked_user.blocked)
-            blocked_names.append(username)
-    elif len(blocked_group) == 1:
-        blocked_names.append(get_username_from_id(blocked_group[0].blocked))
-    privacy = user.privacy
-
-    user_data.update({"blocked_users": blocked_names, "privacy": privacy})
+        user_data.update({"blocked_users": blocked_names, "privacy": privacy})
     return render_template(
         'account_page.html',
         user_data=user_data)
