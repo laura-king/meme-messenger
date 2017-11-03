@@ -36,9 +36,21 @@
           </div>
     </div>
 
+
     <h2 class="ui center aligned icon header">
         <i class="circular users icon"></i>
+        {% if new_user == True %}
+        Start Your First Conversation
+        {% else %}
         Conversation with {{ username }}
+        {% endif %}
+    </h2>
+
+    <h2 class="ui top aligned right">
+        <div class="ui buttons">
+            <button class="ui button">Account info</button>
+            <button class="ui button">Log Out</button>
+        </div>
     </h2>
 
     <div class="ui fluid container"> <!-- Message List -->
@@ -53,6 +65,7 @@
         </ul>
     </div>
 
+
     <div class="ui fluid container">
         <div class="ui buttons">
             <form class="ui form" method="POST" enctype="multipart/form-data">
@@ -65,6 +78,40 @@
     </div>
 
     </div>
+
+        <div class="ui fixed borderless huge menu">
+      <div class="ui container grid">
+        <div class="computer only row">
+            <div class="ui basic icon">
+                <i class="pointing right icon"></i>
+              </div>
+          <a class="header item">Meme Messenger</a>
+            <div class="ui basic icon">
+                <i class="pointing left icon"></i>
+              </div>
+          <div class="right menu">
+            <a class="item" href="/templates/bootstrap/navbar-static-top/">Account Page</a><a class="active item" href="/templates/bootstrap/navbar-static-top/">Log Out</a>
+          </div>
+        </div>
+        <div class="tablet mobile only row">
+              <div class="ui basic icon">
+                <i class="pointing right icon"></i>
+              </div>
+          <a class="header item"> Meme Messenger</a>
+            <div class="ui basic icon">
+                <i class="pointing left icon"></i>
+              </div>
+          <div class="right menu">
+            <a class="menu item">
+
+            </a>
+          </div>
+            <div class="ui divider"></div>
+            <a class="item" href="/templates/bootstrap/navbar-static-top/">Account Info</a><a class="active item" href="/templates/bootstrap/navbar-static-top/">Log Out</a>
+          </div>
+        </div>
+      </div>
+
 </div>
 {% endblock %}
 </html>
