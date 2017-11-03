@@ -18,6 +18,9 @@ class User(db.Model):
 
 # helper functions for user
 
+def update_privacy(user_id, setting):
+    
+    return
 
 def user_exists(email):
     """
