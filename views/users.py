@@ -77,6 +77,15 @@ def block_user():
         block_user_db(user_id, to_block)
     return redirect(url_for('users.account_page', username=username))
 
+@users.route('/friendship', methods=['GET', 'POST'])
+def add_friend():
+
+    if request.method == 'POST':
+        friend_to_add = get_id_from_username(request.form['add_user'])
+    return
+    #I don't know what the redirect was
+    #return redirect(url_for('users.messaging_page'))
+
 
 
 
