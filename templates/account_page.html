@@ -9,6 +9,27 @@
         No user exists with the name {{user_data["username"]}}. Sorry!
     </div>
 {% else %}
+       <div class="ui fixed borderless huge menu">
+      <div class="ui container grid">
+        <div class="computer only row">
+            <div class="ui basic icon">
+                <i class="pointing right icon"></i>
+              </div>
+          <a class="header item">Meme Messenger</a>
+            <div class="ui basic icon">
+                <i class="pointing left icon"></i>
+              </div>
+          <div class="right menu">
+            <a class="item" href="/message/conversation">Conversations</a>
+              <a class="item" href="/auth/logout">Log Out</a>
+              <div class="ui basic icon">
+                <i class="pointing down icon"></i>
+              </div>
+          </div>
+        </div>
+
+        </div>
+      </div>
     <div class="ui segment">
         <img class="medium rounded ui left floated image" src="/static/images/default_dog_meme.png">
         <div class="ui right floated bottom aligned">
