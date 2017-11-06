@@ -36,15 +36,30 @@
         
 <div class="ui centered  raised container  grid segment">
 <div class="ui left aligned grid">
+
+
+    <!--Header-->
     <div class="one column center aligned row">
-        <div class = "center aligned 
-        column">
+        <div class = "center aligned column">
             <h3 class="ui top attached block header">
                 Account Info
             </h3>
         </div>
     </div>
      
+    <!--Profile pic? -->
+    <div class="one column centered row">
+        <div class="center aligned column container">
+            <div class="ui medium centered  rounded fluid image">
+                <a class="ui bottom right corner label">
+                    <i class="setting icon"></i>
+                </a>
+                <img  class="medium centered  rounded ui image" src="/static/images/default_dog_meme.png">
+            </div>
+        </div>
+    </div>
+
+
     <!-- Username row -->
     <div class="two column row">
         
@@ -53,8 +68,10 @@
                 Username: 
             </div>
         </div>
-
+        
+        
         <div class="right  column">
+            {% if user_data["view_self"] %}
             <div class="ui action input">
                 <input type="text" value={{ user_data["username"] }}>
                 <button class="ui positive basic  button" data-content="Submit a username change">
@@ -62,14 +79,21 @@
                     <i class="setting right icon"></i>
                 </button>
             </div>
+            {% else %}
+            <div class="ui big label">
+                {{ user_data["username"] }}
+            </div>
+            {% endif %}
         </div>
 
     </div>
+    <!-- End user name row -->
     
 
     <!-- Privacy row -->
+    {% if user_data["view_self"] %}
     <div class="two column row">
-
+            
         <div class="left right aligned column">
             <div class="ui big label">
                 Privacy: 
@@ -107,6 +131,7 @@
         </div>
 
     </div>  
+    <!-- End privacy row -->
     
     <!-- Blocked users rows-->
     <div class="two column row">
@@ -138,7 +163,8 @@
             </div>
         </div>
     </div>
-
+    <!-- End blocked users -->
+    {% endif %}
             
 </div>
 </div>
