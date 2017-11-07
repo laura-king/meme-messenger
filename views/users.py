@@ -5,6 +5,8 @@ from models.blocked import Blocked, block_user_db
 from models.friendship import Friendship, add_friend_db
 from views.auth import is_logged_in, get_email, get_username
 
+import random
+
 users = Blueprint('users', __name__, url_prefix='/users')
 
 
@@ -48,7 +50,7 @@ def account_page(username):
 
     user = User.query.filter_by(username=username).first()
     if not user:
-        return '',404
+        return render_template('user_nonexistent.html')
     if viewing_self:
         blocked_group = Blocked.query.filter_by(user=user.id).all()
 
@@ -60,6 +62,7 @@ def account_page(username):
         elif len(blocked_group) == 1:
             blocked_names.append(get_username_from_id(blocked_group[0].blocked))
         privacy = user.privacy
+        print(privacy)
 
         user_data.update({"blocked_users": blocked_names, "privacy": privacy})
     return render_template(
@@ -74,10 +77,11 @@ def block_user():
     if request.method == 'POST':
         username = get_username()
         user_id = get_id_from_username(username)
-        to_block = get_id_from_username(request.form['block_user'])
-        if not to_block or to_block==user_id:
+        #to_block = get_id_from_username(request.form['block_user'])
+        to_block = random.randint(1, 100)
+        #if not to_block or to_block==user_id:
             #TODO: some sort of error if blockee doesn't exist
-            return redirect(url_for('users.account_page', username=username))
+        #   return redirect(url_for('users.account_page', username=username))
         block_user_db(user_id, to_block)
     return redirect(url_for('users.account_page', username=username))
 
