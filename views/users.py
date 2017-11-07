@@ -77,11 +77,11 @@ def block_user():
     if request.method == 'POST':
         username = get_username()
         user_id = get_id_from_username(username)
-        #to_block = get_id_from_username(request.form['block_user'])
+        to_block = get_id_from_username(request.form['block_user'])
         to_block = random.randint(1, 100)
-        #if not to_block or to_block==user_id:
+        if not to_block or to_block==user_id:
             #TODO: some sort of error if blockee doesn't exist
-        #   return redirect(url_for('users.account_page', username=username))
+           return redirect(url_for('users.account_page', username=username))
         block_user_db(user_id, to_block)
     return redirect(url_for('users.account_page', username=username))
 
