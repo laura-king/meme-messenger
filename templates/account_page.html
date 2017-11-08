@@ -105,30 +105,19 @@
         <div class="right  column">
             <div class="grouped fields">
                 <div class="field">
-                    {% if user_data["privacy"]=="friends" %}
                         <div class="field">
                             <div class="ui slider checkbox">
-                                <input type="radio" name="throughput" checked="checked">
+                                <input type="radio" name="throughput" {{ "checked" if user_data["privacy"]=="friends" else None}} />
                                 <label>Visible to friends</label>
                             </div>
                         </div>
-                        <div class="ui slider checkbox">
-                            <input type="radio" name="throughput">
-                            <label>Visible to everyone</label>
-                        </div>
-                    {% else %}
                         <div class="field">
                             <div class="ui slider checkbox">
-                                <input type="radio" name="throughput">
-                                <label>Visible to friends</label>
+                                <input type="radio" name="throughput" {{ "checked" if user_data["privacy"]=="everyone" else None}} />
+                                <label>Visible to everyone</label>
                             </div>
                         </div>
-                        <div class="ui slider checkbox">
-                            <input type="radio" name="throughput" checked="checked">
-                            <label>Visible to everyone</label>
-                        </div>
-                    {% endif %}
-                </div>
+                 </div>
             </div>
         </div>
 
@@ -182,7 +171,13 @@ $('.button')
 .popup({
 })
 ;
+
+$(".slider").onChange(function(){
+    $.post("{{ url_for('users.update_privacy') }}", function(data, status){
+    });
+});
 </script>
+
 
 {% endblock %}
 
