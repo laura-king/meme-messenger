@@ -18,8 +18,10 @@ class User(db.Model):
 
 # helper functions for user
 
-def update_privacy(user_id, setting):
-    
+def update_privacy(user_id, privacy_setting):
+    user = User.query.filter_by(id=user_id).first()
+    user.privacy = privacy_setting
+    db.session.commit()
     return
 
 def user_exists(email):
