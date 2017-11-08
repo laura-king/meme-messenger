@@ -75,11 +75,13 @@
         <div class="right  column">
             {% if user_data["view_self"] %}
             <div class="ui action input">
-                <input type="text" value={{ user_data["username"] }}>
-                <button class="ui positive basic  button" data-content="Submit a username change">
-                    Change
-                    <i class="setting right icon"></i>
-                </button>
+                <form action="{{ url_for('users.change_username') }}" method="post">
+                    <input type="text" value={{ user_data["username"] }} name="change_username">
+                    <button class="ui positive basic  button" data-content="Submit a username change">
+                        Change
+                        <i class="setting right icon"></i>
+                    </button>
+                </form>
             </div>
             {% else %}
             <div class="ui big label">
@@ -156,8 +158,8 @@
         </div>
     </div>
 
-    <div class="two column row">
-        <div class="right column">
+    <div class="one  centered  row">
+        <div class=" center aligned six wide column">
             <div class="ui container">
                 {% for user in user_data["blocked_users"] %}
                 <div class="top attached ui segment">

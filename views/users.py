@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for
 
-from models.user import User, db, user_exists, username_taken, get_id_from_username, get_username_from_id, update_privacy
+from models.user import User, db, user_exists, username_taken, get_id_from_username, get_username_from_id, update_privacy, change_username_from_id
 from models.blocked import Blocked, block_user_db
 from models.friendship import Friendship, add_friend_db
 from views.auth import is_logged_in, get_email, get_username
@@ -108,6 +108,19 @@ def update_privacy():
             user_id = get_id_from_username(username)
             update_privacy(user_id, privacy)
     return redirect(url_for('users.account_page', username=username))
+
+@users.route('/changename/', methods=['GET', 'POST'])
+def change_username():
+    """
+    Blocks a user submitted by form from account page
+    """
+    if request.method == 'POST':
+        username = get_username()
+        new_username = request.form['change_username']
+        user_id = get_id_from_username(username)
+        #TODO: Error handling on database writes lol
+        change_username_from_id(user_id, new_username )
+    return redirect(url_for('users.account_page', username=new_username))
 
 
 
