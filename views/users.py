@@ -108,7 +108,7 @@ def update_privacy():
 @users.route('/changename/', methods=['GET', 'POST'])
 def change_username():
     """
-    Blocks a user submitted by form from account page
+    Changes a username based on form on account page
     """
     if request.method == 'POST':
         username = get_username()
