@@ -1,10 +1,17 @@
+import os
+from flask import Flask, render_template, request
 from flask import Flask, render_template
 
 from models.shared import db
+<<<<<<< HEAD
 import models.blocked
 import models.user
 import models.friendship
 from views import auth as auth, users as users
+=======
+import models.blocked, models.user, models.message, models.conversation
+from views import auth as auth, users as users, message as message
+>>>>>>> conversation-UI
 
 # start and configure app
 app = Flask(__name__)
@@ -14,6 +21,7 @@ db.init_app(app)
 # register blueprints
 app.register_blueprint(auth.auth)
 app.register_blueprint(users.users)
+app.register_blueprint(message.message)
 
 
 # configure oauth with the client id, client secret, and server url

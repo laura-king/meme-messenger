@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "layout.html" %}
+{% block title %}Conversation - {% endblock %}
+{%  block head %}
+    {{ super() }}
+{% endblock %}
+{% block body %}
+    <!-- Nav bar -->
+    <nav class="ui fixed fluid borderless huge menu">
+    
+        <!--Header-->
+        <a class="header item " href="/">
+            <div class="ui basic icon">
+                <i class="pointing right icon"></i>
+            </div>
+            Meme Messenger
+            <div class="ui basic icon">
+                <i class="pointing left icon"></i>
+            </div>
+        </a>
+
+        <!-- Right menu -->
+        <div class="right menu">
+            <a class="item" href="/users/{{ username }}">
+                Account Page
+            </a>
+            <a class="item" href="/auth/logout">
+                Log Out 
+                <div class="ui basic icon">
+                    <i class="pointing down icon"></i>
+                </div>
+            </a>
+        </div>
+        
+    </nav>
+
+    
+    <div class="ui grid">
+
+            <div class="two column row">
+            <!-- Friends List -->
+            <div class="left floated three wide column" id="sidebar">
+                <div class="ui vertical fluid pointing tabular menu">
+                    <div class="ui grey ribbon big label">
+                        <i class="child icon"></i>
+                        <b>Friends</b>
+                    </div>
+
+                    <div class="item active" data-tab="bill-tab">
+                        Bill Tarr
+                    </div>
+                    <div class="item" data-tab="mel-tab">
+                        Melissa Laskowski
+                    </div>
+                    <div class="item" data-tab="adam-tab">
+                        Adam Kuhn
+                        <div class="ui label">
+                            <i class="mail icon"></i> 420
+                        </div>
+                    </div>
+                    <div class="item" data-tab="laura-tab">
+                        Laura King
+                    </div>
+                    <div class="item" data-tab="mack-tab">
+                        Mackenzie Bowe
+                        <div class="ui label">
+                                <i class="mail icon"></i> 666
+                        </div>
+                    </div>
+                    
+                    <div class="item">
+                        <div class="ui icon input">
+                            <input type="text" placeholder="Add a friend...">
+                            <i class="search icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat area -->
+            <div class="thirteen wide column" id="content">
+                <div class="ui grid">
+
+                    <!-- Chat prompt (Start new, Chatting with, Welcome..) -->
+                    <div class="row">
+                        <h2 class="ui center aligned icon header">
+                                <i class="circular users icon"></i>
+                                {% if new_user == True %}
+                                Start Your First Conversation
+                                {% else %}
+                                Conversation with {{ username }}
+                                {% endif %}
+                        </h2>
+                    </div>
+
+                    <div class="ui divider"></div>
+
+                    <!--Attached conversation content areas. These will be dynamically generated. -->
+                    <div class="row">
+                    <div class="ui right attached tab segment active" data-tab="bill-tab">
+                        <h1> Hey bill </h1>
+                    </div>
+                    <div class="ui right attached tab segment" data-tab="mel-tab">
+                        <h1> Hey mel </h1>
+                        <!-- Message List -->
+                        <div class="ui fluid container"> 
+                            <div class="ui massive vertical divided list">
+                                {% for message in messages %}
+                                    <div class="item">
+                                        <div class="right floated padded content">
+                                        {{ message }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui right attached tab segment" data-tab="adam-tab">
+                        <h1> Hey adam </h1>
+                    </div>
+                    <div class="ui right attached tab segment" data-tab="laura-tab">
+                        <h1> Hey laura </h1>
+                    </div>
+                    <div class="ui right attached tab segment" data-tab="mack-tab">
+                        <h1> Hey mack </h1>
+                    </div>
+                    </div>
+
+                    <!--Chatbar, buttons -->
+                    <div class="one column centered row">
+                        <div class="ui footer fixed raised centered segment">
+                            <div class="ui buttons">
+                                <form class="ui form" method="POST" enctype="multipart/form-data">
+                                    <input type=file name = "file" value="Upload">
+                                    <button class="ui button">
+                                        <i class="upload icon"></i>
+                                        Upload
+                                    </button>
+                                </form>
+                                <button class="ui primary button">
+                                    <i class="search icon"></i>
+                                    Search
+                                </button>
+                                <button class="ui button">
+                                    <i class="random icon"></i>
+                                    Random
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                </div>
+            </div>
+            </div>
+            <!-- End chat area-->
+        
+
+    </div>
+
+
+<style type="text/css">
+    body {
+      display: relative;
+    }
+    
+    #sidebar {
+      position: fixed;
+      top: 51.8px;
+      left: 0;
+      bottom: 0;
+      width: 18%;
+      background-color: #f5f5f5;
+      padding: 0px;
+    }
+    #sidebar .ui.menu {
+      margin: 2em 0 0;
+      font-size: 16px;
+    }
+    #sidebar .ui.menu > a.item {
+      color: #4C5155;
+      border-radius: 0 !important;
+    }
+    #sidebar .ui.menu > a.item.active {
+      background-color: #4C5155;
+      color: white;
+      border: none !important;
+    }
+    #sidebar .ui.menu > a.item:hover {
+      background-color: #4C5155;
+      color: white;
+    }
+    
+    #content {
+      margin-left: 19%;
+      width: 81%;
+      margin-top: 3em;
+      padding-left: 3em;
+      float: left;
+    }
+    #content > .ui.grid {
+      padding-right: 4em;
+      padding-bottom: 3em;
+    }
+    #content h1 {
+      font-size: 36px;
+    }
+    #content .ui.divider:not(.hidden) {
+      margin: 0;
+    }
+    #content table.ui.table {
+      border: none;
+    }
+    #content table.ui.table thead th {
+      border-bottom: 2px solid #eee !important;
+    }
+  </style>
+
+<script>
+$(document).ready(function() {
+    $(' .menu .item').tab();
+});
+</script>
+
+{% endblock %}
+</html>
