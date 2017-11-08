@@ -3,15 +3,12 @@ from flask import Flask, render_template, request
 from flask import Flask, render_template
 
 from models.shared import db
-<<<<<<< HEAD
 import models.blocked
 import models.user
 import models.friendship
-from views import auth as auth, users as users
-=======
-import models.blocked, models.user, models.message, models.conversation
+import models.message
+import models.conversation
 from views import auth as auth, users as users, message as message
->>>>>>> conversation-UI
 
 # start and configure app
 app = Flask(__name__)
