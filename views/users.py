@@ -30,7 +30,7 @@ def create_account():
                         db.session.add(User(username=username, email=email, privacy='everyone'))
                         db.session.commit()
                     return redirect(url_for('main_page'))
-        return redirect('/message/conversation')
+        return render_template('create_account.html', email=email, problem=problem)
     return redirect(url_for('main_page'))
 
 
