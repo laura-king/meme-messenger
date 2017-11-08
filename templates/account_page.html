@@ -16,11 +16,15 @@
         </div>
     </a>
 
-<<<<<<< HEAD
     <!-- Right menu -->
     {% if user_data["view_self"] %}
         <div class="right menu">
-
+            <a class="item" href="/message/conversation">
+                Chat
+                <div class="ui basic icon">
+                    <i class="comments icon"></i>
+                </div>
+            </a>
             <!--Check if logged in first-->
             <a class="item" href="/auth/logout">
                 Log Out 
@@ -164,89 +168,6 @@
             
 </div>
 </div>
-=======
-{% if not existing_user %}
-    <div>
-        No user exists with the name {{user_data["username"]}}. Sorry!
-    </div>
-{% else %}
-       <div class="ui fixed borderless huge menu">
-      <div class="ui container grid">
-        <div class="computer only row">
-           <a class="header item"><div class="ui basic icon">
-                <i class="pointing right icon"></i>
-              </div>Meme Messenger
-          <div class="ui basic icon">
-                <i class="pointing left icon"></i>
-              </div></a>
-          <div class="right menu">
-            <a class="item" href="/message/conversation">Conversations</a>
-              <a class="item" href="/auth/logout">Log Out <div class="ui basic icon">
-                <i class="pointing down icon"></i>
-              </div></a>
-              <div class="ui basic icon">
-                <i class="pointing down icon"></i>
-              </div>
-          </div>
-        </div>
-
-        </div>
-      </div>
-    <div class="ui segment">
-        <img class="medium rounded ui left floated image" src="/static/images/default_dog_meme.png">
-        <div class="ui right floated bottom aligned">
-            Username: {{ user_data["username"] }}
-        </div>
-    </div>
-    <button class="negative ui button">Change Username</button>
-
-    <div class="ui">
-        <h3 class="ui header">Privacy Settings </h3>
-        <div class="ui form">
-            <div class="grouped fields right floated">
-                <label>Profile Visibility</label>
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        {% if user_data["privacy"]=="all" %}
-                            <input type="radio" name="privacy" checked="checked">
-                        {% else %}
-                            <input type="radio" name="privacy">
-                        {% endif %}
-                        <label>Public</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        {% if user_data["privacy"]=="friends" %}
-                            <input type="radio" name="privacy" checked="checked">
-                        {% else %}
-                            <input type="radio" name="privacy">
-                        {% endif %}                        
-                        <label>Friends Only</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Some sort of drop down arrow with privacy setting options, probably a class with semantic? -->
-    </div>
-
-    <div>
-        <h3 class="ui header">Blocked Users</h3>
-        {% for user in user_data["blocked_users"] %}
-            <li>
-                {{ user }}
-            </li>
-        {% endfor %}
-    </div>
-    <div>
-        <h4 class="ui header">Block New User</h4>
-        <form>
-            <input value="User goes here">
-        </form>
-    </div>
-{% endif %}
-{% endblock %}
->>>>>>> conversation-UI
 
 <script>
     $('.ui.checkbox')

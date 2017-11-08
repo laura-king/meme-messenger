@@ -39,7 +39,7 @@ def converse(messaging_user=""):
         return redirect('/auth/login')
 
     conversationMessages = ["Message 1", "Message 2", "Message 3", "Message 4", "Message 5", "Message 6"]
-    return render_template('conversation.html', messages=conversationMessages, username=messaging_user, new_user = new_user)
+    return render_template('conversation.html', messages=conversationMessages, username=get_username(), new_user = new_user)
 
 @message.route('/conversation/<messaging_user>')
 def conversation(main_user, messaging_user):
