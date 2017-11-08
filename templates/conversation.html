@@ -36,7 +36,7 @@
     </nav>
 
     
-    <div class="ui grid">
+    <div class="ui grid" id="main">
 
             <div class="two column row">
             <!-- Friends List -->
@@ -101,7 +101,7 @@
                     <div class="ui right attached tab segment active" data-tab="bill-tab">
                         <h1> Hey bill </h1>
                     </div>
-                    <div class="ui right attached tab segment" data-tab="mel-tab">
+                    <div class="ui right attached tab segment" data-tab="mel-tab" id="messages">
                         <h1> Hey mel </h1>
                         <!-- Message List -->
                         <div class="ui fluid container"> 
@@ -162,9 +162,8 @@
 
 
 <style type="text/css">
-    body {
-      display: relative;
-    }
+
+html, body {margin:0;padding:0;height:100%;}
     
     #sidebar {
       position: fixed;
@@ -191,6 +190,12 @@
     #sidebar .ui.menu > a.item:hover {
       background-color: #4C5155;
       color: white;
+    }
+
+    #main {
+        height: 85%;
+        overflow:auto; 
+        overflow-y:scroll;
     }
     
     #content {
