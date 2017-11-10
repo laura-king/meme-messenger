@@ -72,7 +72,7 @@
         </div>
         
         
-        <div class="right  column">
+        <div class="right column">
             {% if user_data["view_self"] %}
             <div class="ui action input">
                 <input type="text" value={{ user_data["username"] }}>
@@ -105,19 +105,19 @@
         <div class="right  column">
             <div class="grouped fields">
                 <div class="field">
-                        <div class="field">
-                            <div class="ui slider checkbox">
-                                <input type="radio" name="throughput" {{ "checked" if user_data["privacy"]=="friends" else None}} />
-                                <label>Visible to friends</label>
-                            </div>
+                    <div class="field">
+                        <div class="ui slider checkbox">
+                            <input type="radio" name="throughput" id="privacy-friends"{{ "checked" if user_data["privacy"]=="friends" else None}} />
+                            <label>Visible to friends</label>
                         </div>
-                        <div class="field">
-                            <div class="ui slider checkbox">
-                                <input type="radio" name="throughput" {{ "checked" if user_data["privacy"]=="everyone" else None}} />
-                                <label>Visible to everyone</label>
-                            </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui slider checkbox">
+                            <input type="radio" name="throughput" id="privacy-everyone"{{ "checked" if user_data["privacy"]=="everyone" else None}} />
+                            <label>Visible to everyone</label>
                         </div>
-                 </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -172,7 +172,12 @@ $('.button')
 })
 ;
 
-$(".slider").onChange(function(){
+$("#privacy-friends").change(function(){
+    $.post("{{ url_for('users.update_privacy') }}", function(data, status){
+    });
+});
+
+$("#privacy-everyone").change(function(){
     $.post("{{ url_for('users.update_privacy') }}", function(data, status){
     });
 });

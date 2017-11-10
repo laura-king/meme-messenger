@@ -18,9 +18,12 @@ class User(db.Model):
 
 # helper functions for user
 
-def update_privacy(user_id, privacy_setting):
+def toggle_privacy(user_id):
     user = User.query.filter_by(id=user_id).first()
-    user.privacy = privacy_setting
+    if user.privacy == 'friends':
+        user.privacy = 'everyone'
+    else:
+        user.privacy = 'friends'
     db.session.commit()
     return
 
