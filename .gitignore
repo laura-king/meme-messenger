@@ -4,3 +4,4 @@
 app.cfg
 *.db
 static/bower_components
+.vscode/

@@ -52,3 +52,9 @@ def get_id_from_username(username):
 def get_username_from_id(id):
     user = User.query.filter_by(id=id).first()
     return user.username if user is not None else None
+
+def change_username_from_id(id, username):
+    user = User.query.filter_by(id=id).first()
+    user.username = username
+    db.session.commit()
+    return
