@@ -58,3 +58,11 @@ def change_username_from_id(id, username):
     user.username = username
     db.session.commit()
     return
+
+def search_username(username):
+    return User.query.filter_by(User.username.like(username)).all() is not None
+
+
+
+
+

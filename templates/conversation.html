@@ -70,10 +70,12 @@
                     </div>
                     
                     <div class="item">
-                        <div class="ui icon input">
-                            <input type="text" placeholder="Add a friend...">
-                            <i class="search icon"></i>
-                        </div>
+                        <form class="ui form" action="{{ url_for('users.change_username') }}" method="POST">
+                            <div class="ui icon input">
+                                <input type="text" placeholder="Add a friend...">
+                                <button class="search icon"></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
