@@ -25,6 +25,14 @@ In your `Authorized redirect URIs` put: `http://[your application ip/domain]:[po
 
 Use the `Client ID` and `Client secret` from that page in your server's configuration file
 
+### Setting up a Reddit account for the server:
+
+Create a [Reddit](https://www.reddit.com) account
+
+Navigate to the [app setup page](https://www.reddit.com/prefs/apps/) and create an app that is a **script** with a redirect uri that is your application's base uri
+
+Add your client id (under "personal use script"), secret, and Reddit username to the configuration file
+
 ### Configuring the server:
 
 Copy the `app.cfg.template` file and rename it to `app.cfg`
@@ -38,8 +46,11 @@ Enter the `app.cfg` file in your favorite editor and change these settings to co
 | SECRET_KEY                     | Secret key for the Flask application, needed for sessions to keep users logged in, look [here](http://flask.pocoo.org/docs/0.12/quickstart/#sessions) for details on sessions and generating your secret key |
 | GOOGLE_OAUTH_CLIENTID          | The Client ID provided to you from the Google OAuth client credential manager, required for the application |
 | GOOGLE_OAUTH_SECRET            | The Client secret provided to you from the Google OAuth client credential manager |
-| SQLALCHEMY_DATABASE_URI        | The location of the database for the application, defaults to an SQLite3 database in the base directory called "mongo.db" |
+| SQLALCHEMY_DATABASE_URI        | The location of the database for the application, defaults to an SQLite3 database in the base directory called "meme.db" |
 | SQLALCHEMY_TRACK_MODIFICATIONS | Toggle weather or not SQLAlchemy will detect modifications on objects and emit signals for a change, defaults to `False` as it is not needed for the application |
+| REDDIT_CLIENT_ID               | The client id given for the Reddit account used to search for random memes |
+| REDDIT_CLIENT_SECRET           | The secret given for the Reddit account used to search for random memes |
+| REDDIT_USERNAME                | the username for the Reddit account used to search for random memes, **do not include the '/u/'** |
 
 Extra configuration settings for libraries used can be found here:
 
