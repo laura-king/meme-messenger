@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 import praw
 import random
 
@@ -25,4 +25,4 @@ def get_random_meme():
     posts = []
     for post in reddit.subreddit(random.choice(subreddits)).hot(limit=50):
         posts.append(post)
-    return random.choice(posts).url
+    return jsonify({"url": random.choice(posts).url})
