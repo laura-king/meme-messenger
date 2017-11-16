@@ -2,3 +2,4 @@ flask
 flask-socketio
 Flask-OAuthlib
 Flask-SQLAlchemy
+praw
