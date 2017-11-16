@@ -60,7 +60,7 @@ def change_username_from_id(id, username):
     return
 
 def search_username(username):
-    return User.query.filter_by(User.username.like(username)).all() is not None
+    return User.query.filter(User.username.like('%' + username + '%')).all()
 
 
 
