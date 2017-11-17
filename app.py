@@ -36,7 +36,7 @@ def main_page():
     """
     Loads main page
     """
-    username = models.user.get_username_from_email(auth.get_email())
+    username = user.get_username_from_email(auth.get_email())
     return render_template('index.html', logged_in=auth.is_logged_in(), username=username)
 
 
