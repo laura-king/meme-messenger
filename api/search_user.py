@@ -12,6 +12,6 @@ def search_for_user():
             users = search_username(request_json['query'])
             result = []
             for user in users:
-                result = user.username
+                result.append(user.username)
             return jsonify({'users': result})
     return '', 400

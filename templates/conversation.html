@@ -68,14 +68,15 @@
                                 <i class="mail icon"></i> 666
                         </div>
                     </div>
-                    
+
                     <div class="item">
-                        <form class="ui form" action="{{ url_for('users.change_username') }}" method="POST">
-                            <div class="ui icon input">
-                                <input type="text" placeholder="Add a friend...">
-                                <button class="search icon"></button>
+                        <div class="ui input">
+                        <input id="search-for-user" placeholder="Search for a friend...">
+                        </div>
+                        <div class="ui segment">
+                            <div id="search-results" class="ui list">
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -226,8 +227,41 @@ html, body {margin:0;padding:0;height:100%;}
   </style>
 
 <script>
+
+const $searchResults = $('#search-results'),
+    $searchForUser = $('#search-for-user');
+
+function clearUserList() {
+    $searchResults.empty();
+}
+
+function updateUserList(users) {
+    if (users.length > 0) {
+        users.forEach(function(username) {
+            $searchResults.append('<div class="item">' + username + '</div>');
+        });
+    } else {
+        $searchResults.append('<div>No users found for: ' + $searchForUser.val() + '</div>')
+    }
+}
+
 $(document).ready(function() {
     $(' .menu .item').tab();
+    $searchForUser.keypress(function() {
+        query = $searchForUser.val();
+        clearUserList();
+        if (query.length > 0) {
+            $.ajax( {
+                url: {{ url_for('search_user.search_for_user') }},
+                data: JSON.stringify({query: query}),
+                dataType: 'json',
+                contentType: 'application/json',
+                method: 'POST'
+            }).done(function(response){
+                updateUserList(response['users']);
+            });
+        }
+    });
 });
 </script>
 
