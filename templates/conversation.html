@@ -247,7 +247,7 @@ function updateUserList(users) {
 
 $(document).ready(function() {
     $(' .menu .item').tab();
-    $searchForUser.keydown(function() {
+    $searchForUser.keyup(function() {
         query = $searchForUser.val();
         if (query.length > 0) {
             $.ajax( {
