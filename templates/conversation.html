@@ -247,9 +247,8 @@ function updateUserList(users) {
 
 $(document).ready(function() {
     $(' .menu .item').tab();
-    $searchForUser.keypress(function() {
+    $searchForUser.keydown(function() {
         query = $searchForUser.val();
-        clearUserList();
         if (query.length > 0) {
             $.ajax( {
                 url: {{ url_for('search_user.search_for_user') }},
@@ -258,8 +257,11 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 method: 'POST'
             }).done(function(response){
+                clearUserList();
                 updateUserList(response['users']);
             });
+        } else {
+            clearUserList();
         }
     });
 });
