@@ -19,7 +19,7 @@
     <!-- Right menu -->
     {% if user_data["view_self"] %}
         <div class="right menu">
-            <a class="item" href="/message/conversation">
+            <a class="item" href="{{ url_for('message.converse') }}">
                 Chat
                 <div class="ui basic icon">
                     <i class="comments icon"></i>
