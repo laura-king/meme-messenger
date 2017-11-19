@@ -16,7 +16,7 @@ def add_friend_db(user_id, friend):
     user_id - user ID of a user seeking to block another user
     friend - user ID of friend to be added
     """
-    db.session.add(Blocked(user=user_id, friend=friend))
+    db.session.add(Friendship(user=user_id, friend=friend))
     db.session.commit()
     return
 
