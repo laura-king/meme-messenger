@@ -23,10 +23,10 @@
 
         <!-- Right menu -->
         <div class="right menu">
-            <a class="item" href="/users/account/{{ username }}">
+            <a class="item" href="{{ url_for('users.account_page', username=username) }}">
                 Account Page
             </a>
-            <a class="item" href="/auth/logout">
+            <a class="item" href="{{ url_for('auth.logout') }}">
                 Log Out 
                 <div class="ui basic icon">
                     <i class="pointing down icon"></i>
