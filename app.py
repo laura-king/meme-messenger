@@ -5,6 +5,7 @@ from models import blocked, user, friendship, message, conversation
 from views import auth, users, message
 from api import random_meme, search_user
 
+
 # start and configure app
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
@@ -16,6 +17,7 @@ app.register_blueprint(users.users)
 app.register_blueprint(message.message)
 app.register_blueprint(random_meme.random_meme)
 app.register_blueprint(search_user.search_user)
+
 
 
 # configure oauth with the client id, client secret, and server url
