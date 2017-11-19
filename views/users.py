@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for
 
-from models.user import User, db, user_exists, username_taken, get_id_from_username, get_username_from_id, update_privacy
+from models.user import User, db, user_exists, username_taken, get_id_from_username, get_username_from_id, update_privacy, change_username_from_id
 from models.blocked import Blocked, block_user_db
 from models.friendship import Friendship, add_friend_db
 from views.auth import is_logged_in, get_email, get_username
@@ -48,7 +48,7 @@ def account_page(username):
 
     user = User.query.filter_by(username=username).first()
     if not user:
-        return '',404
+        return render_template('user_nonexistent.html')
     if viewing_self:
         blocked_group = Blocked.query.filter_by(user=user.id).all()
 
@@ -77,7 +77,7 @@ def block_user():
         to_block = get_id_from_username(request.form['block_user'])
         if not to_block or to_block==user_id:
             #TODO: some sort of error if blockee doesn't exist
-            return redirect(url_for('users.account_page', username=username))
+           return redirect(url_for('users.account_page', username=username))
         block_user_db(user_id, to_block)
     return redirect(url_for('users.account_page', username=username))
 
@@ -104,6 +104,21 @@ def update_privacy():
             user_id = get_id_from_username(username)
             update_privacy(user_id, privacy)
     return redirect(url_for('users.account_page', username=username))
+
+@users.route('/changename/', methods=['GET', 'POST'])
+def change_username():
+    """
+    Changes a username based on form on account page
+    """
+    if request.method == 'POST':
+        username = get_username()
+        new_username = request.form['change_username']
+        user_id = get_id_from_username(username)
+        #TODO: Error handling on database writes lol
+        change_username_from_id(user_id, new_username )
+    return redirect(url_for('users.account_page', username=new_username))
+
+
 
 
 

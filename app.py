@@ -1,3 +1,5 @@
+import os
+from flask import Flask, render_template, request
 from flask import Flask, render_template
 import praw
 
@@ -5,7 +7,9 @@ from models.shared import db
 import models.blocked
 import models.user
 import models.friendship
-from views import auth as auth, users as users
+import models.message
+import models.conversation
+from views import auth as auth, users as users, message as message
 from api import random_meme
 
 # start and configure app
@@ -16,6 +20,7 @@ db.init_app(app)
 # register blueprints
 app.register_blueprint(auth.auth)
 app.register_blueprint(users.users)
+app.register_blueprint(message.message)
 app.register_blueprint(random_meme.random_meme)
 
 

@@ -76,11 +76,15 @@ $ flask run
 ```
 or
 
+**Dependencies:**
 ```bash
 $ python3 app.py
 ```
 
-## Contact Info:
+- Python 3.6
+- Flask
+
+**Contact Info:**
 
 Laura King - lxk3301@rit.edu
 
