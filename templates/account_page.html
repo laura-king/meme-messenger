@@ -19,7 +19,7 @@
     <!-- Right menu -->
     {% if user_data["view_self"] %}
         <div class="right menu">
-            <a class="item" href="/message/conversation">
+            <a class="item" href="{{ url_for('message.converse') }}">
                 Chat
                 <div class="ui basic icon">
                     <i class="comments icon"></i>
@@ -34,12 +34,8 @@
             </a>
         </div>
     {% endif %}
-    
 </nav>
     
-
-
-
         
 <div class="ui centered  raised container  grid segment">
 <div class="ui left aligned grid">
@@ -77,7 +73,7 @@
         </div>
         
         
-        <div class="right  column">
+        <div class="right column">
             {% if user_data["view_self"] %}
             <div class="ui action input">
                 <form action="{{ url_for('users.change_username') }}" method="post">
@@ -112,19 +108,19 @@
         <div class="right  column">
             <div class="grouped fields">
                 <div class="field">
-                        <div class="field">
-                            <div class="ui slider checkbox">
-                                <input type="radio" name="throughput" {{ "checked" if user_data["privacy"]=="friends" else None}} />
-                                <label>Visible to friends</label>
-                            </div>
+                    <div class="field">
+                        <div class="ui slider checkbox">
+                            <input type="radio" name="throughput" id="privacy-friends"{{ "checked" if user_data["privacy"]=="friends" else None}} />
+                            <label>Visible to friends</label>
                         </div>
-                        <div class="field">
-                            <div class="ui slider checkbox">
-                                <input type="radio" name="throughput" {{ "checked" if user_data["privacy"]=="everyone" else None}} />
-                                <label>Visible to everyone</label>
-                            </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui slider checkbox">
+                            <input type="radio" name="throughput" id="privacy-everyone"{{ "checked" if user_data["privacy"]=="everyone" else None}} />
+                            <label>Visible to everyone</label>
                         </div>
-                 </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -179,7 +175,12 @@ $('.button')
 })
 ;
 
-$(".slider").onChange(function(){
+$("#privacy-friends").change(function(){
+    $.post("{{ url_for('users.update_privacy') }}", function(data, status){
+    });
+});
+
+$("#privacy-everyone").change(function(){
     $.post("{{ url_for('users.update_privacy') }}", function(data, status){
     });
 });

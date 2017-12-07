@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, current_app, redirect, url_for
+from flask import Blueprint, render_template, request, current_app, redirect, url_for, jsonify
 
-from models.user import User, db, user_exists, username_taken, get_id_from_username, get_username_from_id, update_privacy, change_username_from_id
+from models.user import User, db, user_exists, username_taken, get_id_from_username, get_username_from_id, toggle_privacy, change_username_from_id, search_username
 from models.blocked import Blocked, block_user_db
 from models.friendship import Friendship, add_friend_db
 from views.auth import is_logged_in, get_email, get_username
@@ -81,7 +81,7 @@ def block_user():
         block_user_db(user_id, to_block)
     return redirect(url_for('users.account_page', username=username))
 
-@users.route('/friendship', methods=['GET', 'POST'])
+@users.route('/addfriend', methods=['GET', 'POST'])
 def add_friend():
     """
     Adds a friend submitted by form from the account page
@@ -91,18 +91,16 @@ def add_friend():
         user_id =  get_id_from_username(username)
         friend_to_add = get_id_from_username(request.form['add_user'])
         if not friend_to_add or friend_to_add==user_id:
-            return redirect(url_for('users.account_page', username=username))
+            return redirect(url_for('converse'))
         add_friend_db(user_id, friend_to_add)
-    return redirect(url_for('users.account_page', username=username))
+    return redirect(url_for('converse'))
 
 @users.route('/privacy', methods=['GET', 'POST'])
 def update_privacy():
     if request.method == 'POST':
         username = get_username()
-        new_privacy = request.form['privacy']
-        if new_privacy.lower()=="everyone" or new_privacy.lower()=="friends":
-            user_id = get_id_from_username(username)
-            update_privacy(user_id, privacy)
+        user_id = get_id_from_username(username)
+        toggle_privacy(user_id)
     return redirect(url_for('users.account_page', username=username))
 
 @users.route('/changename/', methods=['GET', 'POST'])
@@ -117,6 +115,17 @@ def change_username():
         #TODO: Error handling on database writes lol
         change_username_from_id(user_id, new_username )
     return redirect(url_for('users.account_page', username=new_username))
+
+@users.route('/searchuser', methods=['GET', 'POST'])
+def search_username():
+    searched_term = request.form['search_user']
+    users = search_username(searched_term)
+    found_users = []
+    for user in users:
+        found_users.append(user.name)
+    return jsonify(found_users)
+
+
 
 
 

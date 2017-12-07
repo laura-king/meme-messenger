@@ -1,16 +1,10 @@
-import os
 from flask import Flask, render_template, request
-from flask import Flask, render_template
-import praw
 
 from models.shared import db
-import models.blocked
-import models.user
-import models.friendship
-import models.message
-import models.conversation
-from views import auth as auth, users as users, message as message
-from api import random_meme
+from models import blocked, user, friendship, message, conversation
+from views import auth, users, message
+from api import random_meme, search_user
+
 
 # start and configure app
 app = Flask(__name__)
@@ -22,6 +16,8 @@ app.register_blueprint(auth.auth)
 app.register_blueprint(users.users)
 app.register_blueprint(message.message)
 app.register_blueprint(random_meme.random_meme)
+app.register_blueprint(search_user.search_user)
+
 
 
 # configure oauth with the client id, client secret, and server url
@@ -42,7 +38,7 @@ def main_page():
     """
     Loads main page
     """
-    username = models.user.get_username_from_email(auth.get_email())
+    username = user.get_username_from_email(auth.get_email())
     return render_template('index.html', logged_in=auth.is_logged_in(), username=username)
 
 
