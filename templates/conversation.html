@@ -38,7 +38,6 @@
 
     
     <div class="ui grid" id="main">
-
             <div class="two column row">
             <!-- Friends List -->
             <div class="left floated three wide column" id="sidebar">
@@ -184,6 +183,10 @@ function updateUserList(users) {
 }
 
 $(document).ready(function() {
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function() {
+        socket.emit('my event', {data: 'I\'m connected!'});
+    });
     $(' .menu .item').tab();
     $searchForUser.keyup(function() {
         query = $searchForUser.val();

@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from flask_socketio import SocketIO
 
 from models.shared import db
 from models import blocked, user, friendship, message, conversation
@@ -32,6 +33,7 @@ random_meme.configure_reddit(
     app.config['REDDIT_USERNAME']
 )
 
+socketio = SocketIO(app)
 
 @app.route('/')
 def main_page():
@@ -41,6 +43,9 @@ def main_page():
     username = user.get_username_from_email(auth.get_email())
     return render_template('index.html', logged_in=auth.is_logged_in(), username=username)
 
+    
+
+from events import events
 
 if __name__ == "__main__":
-    app.run(threaded=True)
+    socketio.run(app)
