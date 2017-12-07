@@ -45,29 +45,24 @@
                     <div class="ui grey ribbon big label">
                         <i class="child icon"></i>
                         <b>Friends</b>
+                        
                     </div>
+                    <br>
+                    <br>
+                    {% if friends != [] %}
+                        {% for friend in friends %}
+                            <div class="item" data-tab="{{friend}}">
+                                {{ friend }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="item">
+                        Use the search bar below to find friends!
+                        <i class="pointing down icon"></i>
+                    </div>
+                        
+                    {% endif %}
 
-                    <div class="item active" data-tab="bill-tab">
-                        Bill Tarr
-                    </div>
-                    <div class="item" data-tab="mel-tab">
-                        Melissa Laskowski
-                    </div>
-                    <div class="item" data-tab="adam-tab">
-                        Adam Kuhn
-                        <div class="ui label">
-                            <i class="mail icon"></i> 420
-                        </div>
-                    </div>
-                    <div class="item" data-tab="laura-tab">
-                        Laura King
-                    </div>
-                    <div class="item" data-tab="mack-tab">
-                        Mackenzie Bowe
-                        <div class="ui label">
-                                <i class="mail icon"></i> 666
-                        </div>
-                    </div>
 
                     <div class="item">
                         <div class="ui input">
@@ -84,74 +79,66 @@
             <!-- Chat area -->
             <div class="thirteen wide column" id="content">
                 <div class="ui grid">
-
-                    <!-- Chat prompt (Start new, Chatting with, Welcome..) -->
-                    <div class="row">
-                        <h2 class="ui center aligned icon header">
-                                <i class="circular users icon"></i>
-                                {% if new_user == True %}
-                                Start Your First Conversation
-                                {% else %}
-                                Conversation with {{ username }}
-                                {% endif %}
-                        </h2>
-                    </div>
+                    
+                    <!--Header-->
+                    <h2 class="ui center aligned icon header">
+                        <i class="circular users icon"></i>
+                        Welcome {{username}} 👌<br>
+                    </h2>
 
                     <div class="ui divider"></div>
 
-                    <!--Attached conversation content areas. These will be dynamically generated. -->
+                    <!--Attached conversation content area. These will be dynamically generated. -->
                     <div class="row">
-                    <div class="ui right attached tab segment active" data-tab="bill-tab">
-                        <h1> Hey bill </h1>
-                    </div>
-                    <div class="ui right attached tab segment" data-tab="mel-tab" id="messages">
-                        <h1> Hey mel </h1>
-                        <!-- Message List -->
-                        <div class="ui fluid container">
-                            <div class="ui massive vertical divided list">
-                                {% for message in messages %}
-                                    <div class="item">
-                                        <div class="right floated padded content">
-                                        {{ message }}
-                                        </div>
-                                    </div>
-                                {% endfor %}
+                    {% if friends != [] %}
+                        {% for friend in friends %}
+                        <div class="ui right attached tab segment " data-tab="{{friend}}">
+                            <!--Sub banner -->
+                            <div class="row">
+                                <h4 class="ui center aligned icon header">
+                                        🔥 Conversation with {{friend}} 🔥
+                                </h4>
+                            </div>
+
+                            <!--Messages -->
+
+                            <!--Chatbar, buttons -->
+                            <div class="one column centered row">
+                            <div class="ui footer fixed raised centered segment">
+                                <div class="ui buttons">
+                                    <form class="ui form" method="POST" enctype="multipart/form-data">
+                                        <input type=file name = "file" value="Upload">
+                                        <button class="ui button">
+                                            <i class="upload icon"></i>
+                                            Upload
+                                        </button>
+                                    </form>
+                                    <button class="ui primary button">
+                                        <i class="search icon"></i>
+                                        Search
+                                    </button>
+                                    <button class="ui button" id="random_meme">
+                                        <i class="random icon"></i>
+                                        Random
+                                    </button>
+                                </div>
+                            </div>
                             </div>
                         </div>
+                        {% endfor %}
+                        
+                    {% else %}
+                    <div class="ui right attached segment ">
+                        <h3 class="ui center aligned icon header">
+                                😂 Go find some friends to meme with! 😓
+                        </h3>
                     </div>
-                    <div class="ui right attached tab segment" data-tab="adam-tab">
-                        <h1> Hey adam </h1>
-                    </div>
-                    <div class="ui right attached tab segment" data-tab="laura-tab">
-                        <h1> Hey laura </h1>
-                    </div>
-                    <div class="ui right attached tab segment" data-tab="mack-tab">
-                        <h1> Hey mack </h1>
-                    </div>
+                        
+                    {% endif %}
+                    
                     </div>
 
-                    <!--Chatbar, buttons -->
-                    <div class="one column centered row">
-                        <div class="ui footer fixed raised centered segment">
-                            <div class="ui buttons">
-                                <form class="ui form" method="POST" enctype="multipart/form-data">
-                                    <input type=file name = "file" value="Upload">
-                                    <button class="ui button">
-                                        <i class="upload icon"></i>
-                                        Upload
-                                    </button>
-                                </form>
-                                <button class="ui primary button">
-                                    <i class="search icon"></i>
-                                    Search
-                                </button>
-                                <button class="ui button">
-                                    <i class="random icon"></i>
-                                    Random
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    
 
 
 
@@ -186,6 +173,9 @@ $(document).ready(function() {
     var socket = io.connect('http://' + document.domain + ':' + location.port);
     socket.on('connect', function() {
         socket.emit('my event', {data: 'I\'m connected!'});
+    });
+    $(random_meme).click(function() {
+        alert('test');
     });
     $(' .menu .item').tab();
     $searchForUser.keyup(function() {

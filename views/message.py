@@ -4,6 +4,7 @@ from sqlalchemy import null
 
 from models.message import Message
 from models.conversation import Conversation
+from models.friendship import get_friends_db
 from models.user import get_username_from_id, get_id_from_username
 from flask import Blueprint, render_template, request, app, url_for
 from werkzeug.utils import secure_filename, redirect
@@ -22,6 +23,11 @@ def converse(messaging_user=""):
 
         #check log in and grab user name
         main_user = get_username()
+        main_user_id = get_id_from_username(main_user)
+
+        #Grab friends
+        friends = get_friends_db(main_user_id)
+
         new_user = False
         conversationMessages = ["Message 1", "Message 2", "Message 3", "Message 4", "Message 5", "Message 6"]
 
@@ -44,7 +50,7 @@ def converse(messaging_user=""):
         return redirect('/auth/login')
 
 
-    return render_template('conversation.html', messages=conversationMessages, username=main_user, messaging_user=messaging_user, new_user = new_user)
+    return render_template('conversation.html', messages=conversationMessages, username=main_user, messaging_user=messaging_user, new_user = new_user, friends=friends, conversations=None)
 
 #get messages between 2 users
 def conversation(main_user, messaging_user):

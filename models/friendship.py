@@ -1,4 +1,5 @@
 from models.shared import db
+from models.user import get_username_from_id
 
 class Friendship(db.Model):
     user = db.Column(db.Integer, primary_key=True)
@@ -20,4 +21,14 @@ def add_friend_db(user_id, friend):
     db.session.commit()
     return
 
+def get_friends_db(user_id):
+    """
+    Queries for a list of friends
+    """
+    friends = []
+    results = Friendship.query.filter_by(user=user_id).all()
+    for record in results:
+        friend_username = get_username_from_id(record.friend)
+        friends.append(friend_username)
+    return friends
     
