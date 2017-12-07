@@ -100,6 +100,7 @@
                             </div>
 
                             <!--Messages -->
+                            <div class="two column row" id='messages'>
                             {% if conversations[friend] %}
                                 {% for message in conversations[friend] %}
                                     {% if message.sender == id %}
@@ -119,7 +120,7 @@
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
-                            
+                            </div>
                             <!--Chatbar, buttons -->
                             <div class="one column centered row">
                             <div class="ui footer fixed raised center aligned segment">
@@ -131,11 +132,11 @@
                                             Upload
                                         </button>
                                     </form>
-                                    <button class="ui center aligned primary button">
+                                    <button class="ui center aligned primary button" id="search_meme">
                                         <i class="search icon"></i>
                                         Search
                                     </button>
-                                    <button class="ui center aligned button" id="random_meme">
+                                    <button class="ui center aligned button" id="random_meme" person="{{friend}}">
                                         <i class="random icon"></i>
                                         Random
                                     </button>
@@ -183,11 +184,28 @@ function updateUserList(users) {
 
 $(document).ready(function() {
     var socket = io.connect('http://' + document.domain + ':' + location.port);
-    socket.on('connect', function() {
-        socket.emit('my event', {data: 'I\'m connected!'});
+    socket.emit('room', {from_user: '{{username}}', room: 'test'});
+
+    $('.menu .item').on('click', function() {
+        var with_user = $(this).attr('data-tab');
+        var from_user = '{{username}}';
+    });
+    socket.on('message', function(message) {
+        $('#messages').append(
+            '<div class="left floated column">' +
+                '<div class="ui left aligned segment">'+
+                    'test' +
+                '</div>' +
+            '</div>'
+        );
     });
     $(random_meme).click(function() {
-        alert('test');
+        var person = $(this).attr('person');
+        socket.emit('random', {from_user: '{{username}}', to_user: person});
+    });
+    $(search_meme).click(function() {
+        var person = $(this).attr('person');
+        socket.emit('search', {from_user: '{{username}}', to_user: person});
     });
     $(' .menu .item').tab();
     $searchForUser.keyup(function() {
