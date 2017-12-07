@@ -17,7 +17,7 @@
     </a>
 
     <!-- Right menu -->
-    {% if user_data["view_self"] %}
+    {% if logged_in %}
         <div class="right menu">
             <a class="item" href="{{ url_for('message.converse') }}">
                 Chat
@@ -93,7 +93,19 @@
 
     </div>
     <!-- End user name row -->
-    
+
+    <!-- Add friend -->
+    {% if not user_data["view_self"] and logged_in %}
+    <div class=" sixteen wide center aligned column">
+        <form action="{{ url_for('users.add_friend') }}" method="post">
+            
+            <button class="ui positive  basic button" type ="submit" data-content="Add a friend" value={{ user_data["username"] }} name="add_user">
+                Add friend
+            </button>
+        </form>
+    </div>
+    {% endif %}
+    <!-- End add friend row -->
 
     <!-- Privacy row -->
     {% if user_data["view_self"] %}

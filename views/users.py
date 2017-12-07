@@ -64,7 +64,8 @@ def account_page(username):
         user_data.update({"blocked_users": blocked_names, "privacy": privacy})
     return render_template(
         'account_page.html',
-        user_data=user_data)
+        user_data=user_data,
+        logged_in=is_logged_in())
 
 @users.route('/block/', methods=['GET', 'POST'])
 def block_user():
