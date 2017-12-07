@@ -60,7 +60,6 @@
                         Use the search bar below to find friends!
                         <i class="pointing down icon"></i>
                     </div>
-                        
                     {% endif %}
 
 
@@ -101,7 +100,26 @@
                             </div>
 
                             <!--Messages -->
-
+                            {% if conversations[friend] %}
+                                {% for message in conversations[friend] %}
+                                    {% if message.sender == id %}
+                                    <div class="right floated column">
+                                        <div class="ui right aligned segment">
+                                            Link: {{message.link}} <br>
+                                            Image: {{message.image}}
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="left floated column">
+                                        <div class="ui left aligned segment">
+                                            Link: {{message.link}} <br>
+                                            Image: {{message.image}}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            
                             <!--Chatbar, buttons -->
                             <div class="one column centered row">
                             <div class="ui footer fixed raised centered segment">
@@ -133,15 +151,9 @@
                                 😂 Go find some friends to meme with! 😓
                         </h3>
                     </div>
-                        
+
                     {% endif %}
-                    
                     </div>
-
-                    
-
-
-
                 </div>
             </div>
             </div>
