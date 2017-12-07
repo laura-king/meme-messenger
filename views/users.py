@@ -92,9 +92,9 @@ def add_friend():
         user_id =  get_id_from_username(username)
         friend_to_add = get_id_from_username(request.form['add_user'])
         if not friend_to_add or friend_to_add==user_id:
-            return redirect(url_for('converse'))
+            return redirect(url_for('message.converse'))
         add_friend_db(user_id, friend_to_add)
-    return redirect(url_for('converse'))
+    return redirect(url_for('message.converse'))
 
 @users.route('/privacy', methods=['GET', 'POST'])
 def update_privacy():
