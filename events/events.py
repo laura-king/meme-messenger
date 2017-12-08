@@ -46,6 +46,6 @@ def generate_message(from_user, to_user):
     link = json.loads(response.data)['url']
     message['link'] = link
     message['image'] = 'test'
-    message['timestamp'] = datetime.datetime.now().strftime("%H:%M, %d/%m/%Y ")
+    message['timestamp'] = datetime.datetime.now().strftime("%H:%M %p, %d/%m/%Y")
     
     return message
