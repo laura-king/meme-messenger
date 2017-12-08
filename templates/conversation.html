@@ -4,11 +4,12 @@
 {% block title %}Conversation - {% endblock %}
 {%  block head %}
     {{ super() }}
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheets/conversation.css') }}">
 {% endblock %}
 {% block body %}
     <!-- Nav bar -->
     <nav class="ui fixed fluid borderless huge menu">
-    
+
         <!--Header-->
         <a class="header item " href="/">
             <div class="ui basic icon">
@@ -22,22 +23,21 @@
 
         <!-- Right menu -->
         <div class="right menu">
-            <a class="item" href="/users/account/{{ username }}">
+            <a class="item" href="{{ url_for('users.account_page', username=username) }}">
                 Account Page
             </a>
-            <a class="item" href="/auth/logout">
+            <a class="item" href="{{ url_for('auth.logout') }}">
                 Log Out 
                 <div class="ui basic icon">
                     <i class="pointing down icon"></i>
                 </div>
             </a>
         </div>
-        
+
     </nav>
 
     
     <div class="ui grid" id="main">
-
             <div class="two column row">
             <!-- Friends List -->
             <div class="left floated three wide column" id="sidebar">
@@ -45,187 +45,219 @@
                     <div class="ui grey ribbon big label">
                         <i class="child icon"></i>
                         <b>Friends</b>
+                        
                     </div>
-
-                    <div class="item active" data-tab="bill-tab">
-                        Bill Tarr
-                    </div>
-                    <div class="item" data-tab="mel-tab">
-                        Melissa Laskowski
-                    </div>
-                    <div class="item" data-tab="adam-tab">
-                        Adam Kuhn
-                        <div class="ui label">
-                            <i class="mail icon"></i> 420
-                        </div>
-                    </div>
-                    <div class="item" data-tab="laura-tab">
-                        Laura King
-                    </div>
-                    <div class="item" data-tab="mack-tab">
-                        Mackenzie Bowe
-                        <div class="ui label">
-                                <i class="mail icon"></i> 666
-                        </div>
-                    </div>
-                    
+                    <br>
+                    <br>
+                    {% if friends != [] %}
+                        {% for friend in friends %}
+                            <div class="item" data-tab="{{friend}}">
+                                {{ friend }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
                     <div class="item">
-                        <div class="ui icon input">
-                            <input type="text" placeholder="Add a friend...">
-                            <i class="search icon"></i>
+                        Use the search bar below to find friends!
+                        <i class="pointing down icon"></i>
+                    </div>
+                    {% endif %}
+
+
+                    <div class="item">
+                        <div class="ui input">
+                        <input id="search-for-user" placeholder="Search for a friend...">
+                        </div>
+                        <div class="ui segment">
+                            <div id="search-results" class="ui list">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Chat area -->
             <div class="thirteen wide column" id="content">
                 <div class="ui grid">
-
-                    <!-- Chat prompt (Start new, Chatting with, Welcome..) -->
-                    <div class="row">
-                        <h2 class="ui center aligned icon header">
-                                <i class="circular users icon"></i>
-                                {% if new_user == True %}
-                                Start Your First Conversation
-                                {% else %}
-                                Conversation with {{ username }}
-                                {% endif %}
-                        </h2>
-                    </div>
-
+                    
+                    <!--Header-->
+                    <h2 class="ui center aligned icon header">
+                        <i class="circular users icon"></i>
+                        Welcome {{username}} 👌<br>
+                    </h2>
+                    
                     <div class="ui divider"></div>
 
-                    <!--Attached conversation content areas. These will be dynamically generated. -->
+                    <!--Attached conversation content area. These will be dynamically generated. -->
                     <div class="row">
-                    <div class="ui right attached tab segment active" data-tab="bill-tab">
-                        <h1> Hey bill </h1>
-                    </div>
-                    <div class="ui right attached tab segment" data-tab="mel-tab" id="messages">
-                        <h1> Hey mel </h1>
-                        <!-- Message List -->
-                        <div class="ui fluid container"> 
-                            <div class="ui massive vertical divided list">
-                                {% for message in messages %}
-                                    <div class="item">
-                                        <div class="right floated padded content">
-                                        {{ message }}
+                    {% if friends != [] %}
+                        {% for friend in friends %}
+                        <div class="ui right attached tab segment " data-tab="{{friend}}">
+                            <!--Sub banner -->
+                            <div class="row">
+                                <h4 class="ui center aligned icon header">
+                                        🔥 Conversation with {{friend}} 🔥
+                                </h4>
+                            </div>
+
+                            <!--Messages -->
+                            <div class="two column row" id={{[friend, 'messages'] | join}} >
+                            {% if conversations[friend] %}
+                                {% for message in conversations[friend] %}
+                                    {% if message.sender == username %}
+                                    <div class="right floated column">
+                                        <div class="ui right aligned segment">
+                                            <a href="{{message.link}}" class="ui medium spaced image">
+                                                <img src="{{message.link}}">
+                                                <div class="ui grey bottom label">
+                                                        <i class="comment icon"></i> Sent at: {{message.timestamp}}
+                                                    </div>
+                                            </a>
+                                            
                                         </div>
                                     </div>
+                                    {% else %}
+                                    <div class="left floated column">
+                                            <div class="ui left aligned segment">     
+                                                <a href="{{message.link}}" class="ui medium spaced image">
+                                                    <img src="{{message.link}}">
+                                                    <div class="ui blue bottom label">
+                                                        <i class="comment icon"></i> Sent at: {{message.timestamp}}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                    </div>
+                                    {% endif %}
                                 {% endfor %}
+                            {% endif %}
                             </div>
-                        </div>
-                    </div>
-                    <div class="ui right attached tab segment" data-tab="adam-tab">
-                        <h1> Hey adam </h1>
-                    </div>
-                    <div class="ui right attached tab segment" data-tab="laura-tab">
-                        <h1> Hey laura </h1>
-                    </div>
-                    <div class="ui right attached tab segment" data-tab="mack-tab">
-                        <h1> Hey mack </h1>
-                    </div>
-                    </div>
-
-                    <!--Chatbar, buttons -->
-                    <div class="one column centered row">
-                        <div class="ui footer fixed raised centered segment">
-                            <div class="ui buttons">
-                                <form class="ui form" method="POST" enctype="multipart/form-data">
-                                    <input type=file name = "file" value="Upload">
-                                    <button class="ui button">
-                                        <i class="upload icon"></i>
-                                        Upload
+                            <!--Chatbar, buttons -->
+                            <div class="one column centered row">
+                            <div class="ui footer fixed raised center aligned segment">
+                                <div class="ui centered buttons">
+                                    <form class="ui form" method="POST" enctype="multipart/form-data">
+                                        <input type=file name = "file" value="Upload">
+                                        <button class="ui button">
+                                            <i class="upload icon"></i>
+                                            Upload
+                                        </button>
+                                    </form>
+                                    <button class="ui center aligned primary button" id="search_meme">
+                                        <i class="search icon"></i>
+                                        Search
                                     </button>
-                                </form>
-                                <button class="ui primary button">
-                                    <i class="search icon"></i>
-                                    Search
-                                </button>
-                                <button class="ui button">
-                                    <i class="random icon"></i>
-                                    Random
-                                </button>
+                                    <button class="ui center aligned button" id="random_meme" person="{{friend}}">
+                                        <i class="random icon"></i>
+                                        Random
+                                    </button>
+                                </div>
+                            </div>
                             </div>
                         </div>
+                        {% endfor %}
+                        
+                    {% else %}
+                    <div class="ui right attached segment ">
+                        <h3 class="ui center aligned icon header">
+                                😂 Go find some friends to meme with! 😓
+                        </h3>
                     </div>
 
-                    
-
+                    {% endif %}
+                    </div>
                 </div>
             </div>
             </div>
             <!-- End chat area-->
-        
+
 
     </div>
 
-
-<style type="text/css">
-
-html, body {margin:0;padding:0;height:100%;}
-    
-    #sidebar {
-      position: fixed;
-      top: 51.8px;
-      left: 0;
-      bottom: 0;
-      width: 18%;
-      background-color: #f5f5f5;
-      padding: 0px;
-    }
-    #sidebar .ui.menu {
-      margin: 2em 0 0;
-      font-size: 16px;
-    }
-    #sidebar .ui.menu > a.item {
-      color: #4C5155;
-      border-radius: 0 !important;
-    }
-    #sidebar .ui.menu > a.item.active {
-      background-color: #4C5155;
-      color: white;
-      border: none !important;
-    }
-    #sidebar .ui.menu > a.item:hover {
-      background-color: #4C5155;
-      color: white;
-    }
-
-    #main {
-        height: 100%;
-        overflow:auto; 
-        overflow-y:scroll;
-    }
-    
-    #content {
-      margin-left: 19%;
-      width: 81%;
-      margin-top: 3em;
-      padding-left: 3em;
-      float: left;
-    }
-    #content > .ui.grid {
-      padding-right: 4em;
-      padding-bottom: 3em;
-    }
-    #content h1 {
-      font-size: 36px;
-    }
-    #content .ui.divider:not(.hidden) {
-      margin: 0;
-    }
-    #content table.ui.table {
-      border: none;
-    }
-    #content table.ui.table thead th {
-      border-bottom: 2px solid #eee !important;
-    }
-  </style>
-
 <script>
+
+const $searchResults = $('#search-results'),
+    $searchForUser = $('#search-for-user');
+
+function clearUserList() {
+    $searchResults.empty();
+}
+
+function updateUserList(users) {
+    if (users.length > 0) {
+        users.forEach(function(username) {
+            $searchResults.append('<a class="header item " href="/users/account/' + username + '">' + username + '</div>');
+        });
+    } else {
+        $searchResults.append('<div>No users found for: ' + $searchForUser.val() + '</div>')
+    }
+}
+
 $(document).ready(function() {
+    
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    var curr_user = '{{username}}';
+    socket.emit('room', {from_user: curr_user, room: curr_user});
+
+    $('.menu .item').on('click', function() {
+        var with_user = $(this).attr('data-tab');
+    });
+    socket.on('message', function(message) {
+        console.log(message)
+        if (message.sender === curr_user){
+            var chat = message.receiver;
+            var side = 'right';
+            var color = 'grey';
+        }
+        else{
+            var chat = message.sender;
+            var side = 'left';
+            var color = 'blue';
+        };
+        
+        $('#' + chat + 'messages').append(
+            '<div class="' + side + ' floated column">' +
+                '<div class="ui ' + side + ' aligned segment">'+     
+                    '<a href="' + message.link + '" class="ui medium spaced image">' +
+                        '<img src="' + message.link + '">' +
+                        '<div class="ui ' + color + ' bottom label">' +
+                            '<i class="comment icon"></i> Sent at: ' + message.timestamp + '' +
+                        '</div>' +
+                    '</a>' +
+                '</div>' +
+            '</div>'
+        );
+    });
+
+
     $(' .menu .item').tab();
+    $searchForUser.keyup(function() {
+        query = $searchForUser.val();
+        if (query.length > 0) {
+            $.ajax( {
+                url: {{ url_for('search_user.search_for_user') }},
+                data: JSON.stringify({query: query}),
+                dataType: 'json',
+                contentType: 'application/json',
+                method: 'POST'
+            }).done(function(response){
+                clearUserList();
+                updateUserList(response['users']);
+            });
+        } 
+        else {
+            clearUserList();
+        };
+    });
+
+    $(random_meme).click(function() {
+        var person = $(this).attr('person');
+        console.log('sending to ' + person);
+        socket.emit('random', {from_user: '{{username}}', to_user: person});
+    });
+    $(search_meme).click(function() {
+        var person = $(this).attr('person');
+        socket.emit('search', {from_user: '{{username}}', to_user: person});
+    });
+
 });
 </script>
 

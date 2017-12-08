@@ -17,9 +17,9 @@
     </a>
 
     <!-- Right menu -->
-    {% if user_data["view_self"] %}
+    {% if logged_in %}
         <div class="right menu">
-            <a class="item" href="/message/conversation">
+            <a class="item" href="{{ url_for('message.converse') }}">
                 Chat
                 <div class="ui basic icon">
                     <i class="comments icon"></i>
@@ -34,12 +34,8 @@
             </a>
         </div>
     {% endif %}
-    
 </nav>
     
-
-
-
         
 <div class="ui centered  raised container  grid segment">
 <div class="ui left aligned grid">
@@ -77,8 +73,8 @@
         </div>
         
         
-        <div class="right  column">
-            {% if user_data["view_self"] %}
+        <div class="right column">
+            {% if user_data["view_self"] and logged_in %}
             <div class="ui action input">
                 <form action="{{ url_for('users.change_username') }}" method="post">
                     <input type="text" value={{ user_data["username"] }} name="change_username">
@@ -97,10 +93,30 @@
 
     </div>
     <!-- End user name row -->
-    
+
+    <!-- Add friend -->
+    {% if not user_data["view_self"] and logged_in %}
+    <div class=" sixteen wide center aligned column">
+        {% if not friends[ user_data["username"] ]%}
+        <form action="{{ url_for('users.add_friend') }}" method="post">
+            <button class="ui positive  basic button" type ="submit" data-content="Add a friend" value={{ user_data["username"] }} name="add_user">
+                Add friend
+            </button>
+        </form>
+        {% else %}
+        <form action="{{ url_for('users.remove_friend') }}" method="post">
+            <button class="ui negative basic button" type ="submit" data-content="Remove a friend" value={{ user_data["username"] }} name="remove_user">
+                Remove friend
+            </button>
+        </form>
+        {% endif%}
+        
+    </div>
+    {% endif %}
+    <!-- End add friend row -->
 
     <!-- Privacy row -->
-    {% if user_data["view_self"] %}
+    {% if user_data["view_self"] and logged_in %}
     <div class="two column row">
             
         <div class="left right aligned column">
@@ -112,19 +128,19 @@
         <div class="right  column">
             <div class="grouped fields">
                 <div class="field">
-                        <div class="field">
-                            <div class="ui slider checkbox">
-                                <input type="radio" name="throughput" {{ "checked" if user_data["privacy"]=="friends" else None}} />
-                                <label>Visible to friends</label>
-                            </div>
+                    <div class="field">
+                        <div class="ui slider checkbox">
+                            <input type="radio" name="throughput" id="privacy-friends"{{ "checked" if user_data["privacy"]=="friends" else None}} />
+                            <label>Visible to friends</label>
                         </div>
-                        <div class="field">
-                            <div class="ui slider checkbox">
-                                <input type="radio" name="throughput" {{ "checked" if user_data["privacy"]=="everyone" else None}} />
-                                <label>Visible to everyone</label>
-                            </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui slider checkbox">
+                            <input type="radio" name="throughput" id="privacy-everyone"{{ "checked" if user_data["privacy"]=="everyone" else None}} />
+                            <label>Visible to everyone</label>
                         </div>
-                 </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -179,7 +195,12 @@ $('.button')
 })
 ;
 
-$(".slider").onChange(function(){
+$("#privacy-friends").change(function(){
+    $.post("{{ url_for('users.update_privacy') }}", function(data, status){
+    });
+});
+
+$("#privacy-everyone").change(function(){
     $.post("{{ url_for('users.update_privacy') }}", function(data, status){
     });
 });

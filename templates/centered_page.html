@@ -1,14 +1,11 @@
 {% extends "layout.html" %}
 
+{% block head %}
+    {{ super() }}
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheets/centeredPage.css') }}">
+{% endblock %}
+
 {% block body %}
-<style type="text/css">
-    body > .grid {
-      height: 100%;
-    }
-    .column {
-      max-width: 450px;
-    }
-</style>
 <body>
     <div class="ui middle aligned center aligned grid">
         <div class="column">
