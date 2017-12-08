@@ -103,7 +103,7 @@
                             <div class="two column row" id={{[friend, 'messages'] | join}} >
                             {% if conversations[friend] %}
                                 {% for message in conversations[friend] %}
-                                    {% if message.sender == id %}
+                                    {% if message.sender == username %}
                                     <div class="right floated column">
                                         <div class="ui right aligned segment">
                                             Link: {{message.link}} <br>
@@ -203,6 +203,7 @@ $(document).ready(function() {
             var chat = message.sender;
             var side = 'left';
         };
+        console.log('test');
         
         $('#' + chat + 'messages').append(
             '<div class="' + side + ' floated column">' +
@@ -213,15 +214,6 @@ $(document).ready(function() {
                 '</div>' +
             '</div>'
         );
-        });
-    $(random_meme).click(function() {
-        var person = $(this).attr('person');
-        console.log('sending to ' + person);
-        socket.emit('random', {from_user: '{{username}}', to_user: person});
-    });
-    $(search_meme).click(function() {
-        var person = $(this).attr('person');
-        socket.emit('search', {from_user: '{{username}}', to_user: person});
     });
 
 
@@ -243,6 +235,16 @@ $(document).ready(function() {
         else {
             clearUserList();
         };
+    });
+
+    $(random_meme).click(function() {
+        var person = $(this).attr('person');
+        console.log('sending to ' + person);
+        socket.emit('random', {from_user: '{{username}}', to_user: person});
+    });
+    $(search_meme).click(function() {
+        var person = $(this).attr('person');
+        socket.emit('search', {from_user: '{{username}}', to_user: person});
     });
 
 });

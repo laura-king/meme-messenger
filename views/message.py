@@ -4,7 +4,7 @@ from sqlalchemy import null
 from sqlalchemy import or_
 
 from models.message import Message
-from models.conversation import Conversation, generate_conversations, get_conversation, get_conversations
+from models.conversation import Conversation, get_conversation, get_conversations
 from models.friendship import get_friends_db
 from models.user import get_username_from_id, get_id_from_username
 from flask import Blueprint, render_template, request, app, url_for
@@ -29,10 +29,9 @@ def converse(messaging_user=""):
         #Grab friends
         friends = get_friends_db(main_user_id)
 
-        #generate_conversations(main_user_id)
         all_conversations = get_conversations(main_user_id)
-        
-        
+        print('all conversations')
+        print(all_conversations)
         #Map converstaions to friends
         conversations = {}
         for friend in friends:
@@ -46,7 +45,7 @@ def converse(messaging_user=""):
         return redirect('/auth/login')
 
 
-    return render_template('conversation.html', username=main_user, friends=friends, conversations=conversations, id=str(main_user_id))
+    return render_template('conversation.html', username=main_user, friends=friends, conversations=conversations)
 
 #get messages between 2 users
 def conversation(main_user, messaging_user):

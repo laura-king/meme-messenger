@@ -15,12 +15,9 @@ def random(data):
     print('Random message request')
     from_user = data['from_user']
     to_user = data['to_user']
-    print('from ' + from_user)
-    print('to ' + to_user)
     message = generate_message(from_user, to_user)
-    print('generated message')
     add_message(message)
-    print('added message')
+    message['timestamp'] = message['timestamp'].strftime("%Y-%m-%d %H:%M:%S")
     send(message, room=from_user)
     send(message, room=to_user)
     
@@ -35,12 +32,11 @@ def on_join(data):
     print(data)
     join_room(data['from_user'])
     print(data['from_user'] + ' has joined room: ' + data['from_user'])
-    
-
 
 @socketio.on('disconnect')
-def disconnect():
-    print('Client disconnected')
+def disconnect(data):
+    print(data['from_user'] + 'disconnected')
+    leave_room(data['from_user']) 
 
 
 

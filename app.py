@@ -45,7 +45,7 @@ def main_page():
 
     
 
-#from events import events
+from events import events
 
 if __name__ == "__main__":
     socketio.run(app)
