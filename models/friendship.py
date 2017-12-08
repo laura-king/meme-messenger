@@ -31,4 +31,13 @@ def get_friends_db(user_id):
         friend_username = get_username_from_id(record.friend)
         friends.append(friend_username)
     return friends
+
+def remove_friend_db(user_id, friend_to_remove):
+    """
+    Removes a friend
+    """
     
+    friend = Friendship.query.filter_by(user= user_id, friend=friend_to_remove).first()
+    db.session.delete(friend)
+    db.session.commit()
+    return

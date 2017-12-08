@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, current_app, redirect, ur
 
 from models.user import User, db, user_exists, username_taken, get_id_from_username, get_username_from_id, toggle_privacy, change_username_from_id, search_username
 from models.blocked import Blocked, block_user_db
-from models.friendship import Friendship, add_friend_db
+from models.friendship import Friendship, add_friend_db, remove_friend_db, get_friends_db
 from views.auth import is_logged_in, get_email, get_username
 
 users = Blueprint('users', __name__, url_prefix='/users')
@@ -45,6 +45,12 @@ def account_page(username):
     current_user = get_username()
     viewing_self = (username==current_user)
     user_data = {"username": username, "view_self": viewing_self}
+    user_id = get_id_from_username(current_user)
+    friends = get_friends_db(user_id)
+    users_friends = {}
+    if (friends):
+        for friend in friends:
+            users_friends[friend] = 1
 
     user = User.query.filter_by(username=username).first()
     if not user:
@@ -65,7 +71,8 @@ def account_page(username):
     return render_template(
         'account_page.html',
         user_data=user_data,
-        logged_in=is_logged_in())
+        logged_in=is_logged_in(),
+        friends=users_friends)
 
 @users.route('/block/', methods=['GET', 'POST'])
 def block_user():
@@ -94,6 +101,20 @@ def add_friend():
         if not friend_to_add or friend_to_add==user_id:
             return redirect(url_for('message.converse'))
         add_friend_db(user_id, friend_to_add)
+    return redirect(url_for('message.converse'))
+
+@users.route('/removefriend', methods=['GET', 'POST'])
+def remove_friend():
+    """
+    Removes a friend submitted by form from the account page
+    """
+    if request.method == 'POST':
+        username = get_username()
+        user_id =  get_id_from_username(username)
+        friend_to_remove = get_id_from_username(request.form['remove_user'])
+        if not friend_to_remove or friend_to_remove==user_id:
+            return redirect(url_for('message.converse'))
+        remove_friend_db(user_id, friend_to_remove)
     return redirect(url_for('message.converse'))
 
 @users.route('/privacy', methods=['GET', 'POST'])

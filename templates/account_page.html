@@ -74,7 +74,7 @@
         
         
         <div class="right column">
-            {% if user_data["view_self"] %}
+            {% if user_data["view_self"] and logged_in %}
             <div class="ui action input">
                 <form action="{{ url_for('users.change_username') }}" method="post">
                     <input type="text" value={{ user_data["username"] }} name="change_username">
@@ -97,18 +97,26 @@
     <!-- Add friend -->
     {% if not user_data["view_self"] and logged_in %}
     <div class=" sixteen wide center aligned column">
+        {% if not friends[ user_data["username"] ]%}
         <form action="{{ url_for('users.add_friend') }}" method="post">
-            
             <button class="ui positive  basic button" type ="submit" data-content="Add a friend" value={{ user_data["username"] }} name="add_user">
                 Add friend
             </button>
         </form>
+        {% else %}
+        <form action="{{ url_for('users.remove_friend') }}" method="post">
+            <button class="ui negative basic button" type ="submit" data-content="Remove a friend" value={{ user_data["username"] }} name="remove_user">
+                Remove friend
+            </button>
+        </form>
+        {% endif%}
+        
     </div>
     {% endif %}
     <!-- End add friend row -->
 
     <!-- Privacy row -->
-    {% if user_data["view_self"] %}
+    {% if user_data["view_self"] and logged_in %}
     <div class="two column row">
             
         <div class="left right aligned column">
