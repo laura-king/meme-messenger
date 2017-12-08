@@ -175,7 +175,7 @@ function clearUserList() {
 function updateUserList(users) {
     if (users.length > 0) {
         users.forEach(function(username) {
-            $searchResults.append('<div class="item">' + username + '</div>');
+            $searchResults.append('<a class="header item " href="/users/account/' + username + '">' + username + '</div>');
         });
     } else {
         $searchResults.append('<div>No users found for: ' + $searchForUser.val() + '</div>')
