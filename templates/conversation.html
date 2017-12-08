@@ -106,18 +106,25 @@
                                     {% if message.sender == username %}
                                     <div class="right floated column">
                                         <div class="ui right aligned segment">
-                                            Link: {{message.link}} <br>
-                                            Image: {{message.image}} <br>
-                                            Timestamp: {{message.timestamp}}
+                                            <a href="{{message.link}}" class="ui medium spaced image">
+                                                <img src="{{message.link}}">
+                                                <div class="ui grey bottom label">
+                                                        <i class="comment icon"></i> Sent at: {{message.timestamp}}
+                                                    </div>
+                                            </a>
+                                            
                                         </div>
                                     </div>
                                     {% else %}
                                     <div class="left floated column">
-                                        <div class="ui left aligned segment">
-                                            Link: {{message.link}} <br>
-                                            Image: {{message.image}} <br>
-                                            Timestamp: {{message.timestamp}}
-                                        </div>
+                                            <div class="ui left aligned segment">     
+                                                <a href="{{message.link}}" class="ui medium spaced image">
+                                                    <img src="{{message.link}}">
+                                                    <div class="ui blue bottom label">
+                                                        <i class="comment icon"></i> Sent at: {{message.timestamp}}
+                                                    </div>
+                                                </a>
+                                            </div>
                                     </div>
                                     {% endif %}
                                 {% endfor %}
@@ -198,19 +205,23 @@ $(document).ready(function() {
         if (message.sender === curr_user){
             var chat = message.receiver;
             var side = 'right';
+            var color = 'grey';
         }
         else{
             var chat = message.sender;
             var side = 'left';
+            var color = 'blue';
         };
-        console.log('test');
         
         $('#' + chat + 'messages').append(
             '<div class="' + side + ' floated column">' +
-                '<div class="ui ' + side + ' aligned segment">'+
-                    'Link:' + message.link + '<br>' +
-                    'Image:' + message.image + '<br>' +
-                    'Timestamp:' + message.timestamp +
+                '<div class="ui ' + side + ' aligned segment">'+     
+                    '<a href="' + message.link + '" class="ui medium spaced image">' +
+                        '<img src="' + message.link + '">' +
+                        '<div class="ui ' + color + ' bottom label">' +
+                            '<i class="comment icon"></i> Sent at: ' + message.timestamp + '' +
+                        '</div>' +
+                    '</a>' +
                 '</div>' +
             '</div>'
         );

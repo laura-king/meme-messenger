@@ -9,7 +9,7 @@ class Message(db.Model):
     image = db.Column(db.String(500))
     sender = db.Column(db.String(500), nullable=False)
     receiver = db.Column(db.String(500), nullable=False)
-    timestamp = db.Column(db.DateTime)
+    timestamp = db.Column(db.String(500))
     conversation_id = db.Column(db.Integer, db.ForeignKey('conversation.id'),
         nullable=False)
     

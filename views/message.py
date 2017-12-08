@@ -29,10 +29,10 @@ def converse(messaging_user=""):
         #Grab friends
         friends = get_friends_db(main_user_id)
 
+        #Grab every conversation
         all_conversations = get_conversations(main_user_id)
-        print('all conversations')
-        print(all_conversations)
-        #Map converstaions to friends
+
+        #map friends to conversations and messages
         conversations = {}
         for friend in friends:
             friend_id= get_id_from_username(friend)
@@ -44,23 +44,7 @@ def converse(messaging_user=""):
         #send to home screen if not logged in user
         return redirect('/auth/login')
 
-
     return render_template('conversation.html', username=main_user, friends=friends, conversations=conversations)
-
-#get messages between 2 users
-def conversation(main_user, messaging_user):
-    # grab conversation for two users
-    conversation = Conversation.query.filter_by(first_user_id=get_id_from_username(main_user), second_user_id=get_id_from_username(messaging_user)).first()
-    if conversation == null:
-        conversation = Conversation.query.filter_by(first_user_id=get_id_from_username(messaging_user), second_user_id=get_id_from_username(main_user)).first()
-    messages = []
-    messages[0] = conversation.first_message_id
-    messages[1] = conversation.second_message_id
-    messages[2] = conversation.third_message_id
-    messages[3] = conversation.fourth_message_id
-    messages[4] = conversation.fifth_message_id
-
-    return messages
 
 def allowed_type(filename):
     return '.' in filename and \

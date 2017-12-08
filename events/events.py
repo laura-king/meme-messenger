@@ -3,6 +3,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, send
 from __main__ import socketio
 import json, datetime
 from models.message import add_message
+from api.random_meme import get_random_meme
 
 
 # When the client emits 'connection', this listens and executes
@@ -17,7 +18,6 @@ def random(data):
     to_user = data['to_user']
     message = generate_message(from_user, to_user)
     add_message(message)
-    message['timestamp'] = message['timestamp'].strftime("%Y-%m-%d %H:%M:%S")
     send(message, room=from_user)
     send(message, room=to_user)
     
@@ -38,14 +38,14 @@ def disconnect(data):
     print(data['from_user'] + 'disconnected')
     leave_room(data['from_user']) 
 
-
-
 def generate_message(from_user, to_user):
     message = {}
     message['sender'] = from_user
     message['receiver'] = to_user
-    message['link'] = 'test'
+    response = get_random_meme()
+    link = json.loads(response.data)['url']
+    message['link'] = link
     message['image'] = 'test'
-    message['timestamp'] = datetime.datetime.now()
+    message['timestamp'] = datetime.datetime.now().strftime("%H:%M, %d/%m/%Y ")
     
     return message
