@@ -84,7 +84,7 @@
                         <i class="circular users icon"></i>
                         Welcome {{username}} 👌<br>
                     </h2>
-
+                    
                     <div class="ui divider"></div>
 
                     <!--Attached conversation content area. These will be dynamically generated. -->
@@ -100,7 +100,7 @@
                             </div>
 
                             <!--Messages -->
-                            <div class="two column row" id='messages'>
+                            <div class="two column row" id={{[friend, 'messages'] | join}} >
                             {% if conversations[friend] %}
                                 {% for message in conversations[friend] %}
                                     {% if message.sender == id %}
@@ -184,14 +184,15 @@ function updateUserList(users) {
 
 $(document).ready(function() {
     var socket = io.connect('http://' + document.domain + ':' + location.port);
-    socket.emit('room', {from_user: '{{username}}', room: 'test'});
+    var from_user = '{{username}}';
+    socket.emit('room', {from_user: from_user, room: 'test'});
 
     $('.menu .item').on('click', function() {
         var with_user = $(this).attr('data-tab');
-        var from_user = '{{username}}';
+        
     });
     socket.on('message', function(message) {
-        $('#messages').append(
+        $('#{{['test3', 'messages'] | join}} ').append(
             '<div class="left floated column">' +
                 '<div class="ui left aligned segment">'+
                     'test' +

@@ -18,9 +18,7 @@ def random(data):
 @socketio.on('search')
 def on_search(data):
     print(data)
-    message['link'] = test
-    message['image'] = test
-    message['iamge'] = test
+    
     send('test message', room=data['from_user'])
 
 @socketio.on('room')
