@@ -1,7 +1,8 @@
 from flask import session
 from flask_socketio import SocketIO, emit, join_room, leave_room, send
 from __main__ import socketio
-import json
+import json, datetime
+from models.message import add_message
 
 
 # When the client emits 'connection', this listens and executes
@@ -16,12 +17,10 @@ def random(data):
     to_user = data['to_user']
     print('from ' + from_user)
     print('to ' + to_user)
-    message = {}
-    message['sender'] = from_user
-    message['receiver'] = to_user
-    message['link'] = 'test'
-    message['image'] = 'test'
-    message['timestamp'] = 'test'
+    message = generate_message(from_user, to_user)
+    print('generated message')
+    add_message(message)
+    print('added message')
     send(message, room=from_user)
     send(message, room=to_user)
     
@@ -42,3 +41,15 @@ def on_join(data):
 @socketio.on('disconnect')
 def disconnect():
     print('Client disconnected')
+
+
+
+def generate_message(from_user, to_user):
+    message = {}
+    message['sender'] = from_user
+    message['receiver'] = to_user
+    message['link'] = 'test'
+    message['image'] = 'test'
+    message['timestamp'] = datetime.datetime.now()
+    
+    return message
