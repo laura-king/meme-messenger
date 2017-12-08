@@ -44,8 +44,10 @@ def main_page():
     return render_template('index.html', logged_in=auth.is_logged_in(), username=username)
 
     
-
-from events import events
-
+try: 
+    from events import events
+except ImportError:
+    print('This should ONLY happen when running init db')
+    
 if __name__ == "__main__":
     socketio.run(app)
