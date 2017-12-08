@@ -14,18 +14,28 @@ def random(data):
     print('Random message request')
     from_user = data['from_user']
     to_user = data['to_user']
+    print('from ' + from_user)
+    print('to ' + to_user)
+    message = {}
+    message['sender'] = from_user
+    message['receiver'] = to_user
+    message['link'] = 'test'
+    message['image'] = 'test'
+    message['timestamp'] = 'test'
+    send(message, room=from_user)
+    send(message, room=to_user)
     
 @socketio.on('search')
 def on_search(data):
     print(data)
-    
+    print('')
     send('test message', room=data['from_user'])
 
 @socketio.on('room')
 def on_join(data):
     print(data)
     join_room(data['from_user'])
-    print(data['from_user'] + 'has joined room: ' + data['from_user'])
+    print(data['from_user'] + ' has joined room: ' + data['from_user'])
     
 
 

@@ -107,14 +107,16 @@
                                     <div class="right floated column">
                                         <div class="ui right aligned segment">
                                             Link: {{message.link}} <br>
-                                            Image: {{message.image}}
+                                            Image: {{message.image}} <br>
+                                            Timestamp: {{message.timestamp}}
                                         </div>
                                     </div>
                                     {% else %}
                                     <div class="left floated column">
                                         <div class="ui left aligned segment">
                                             Link: {{message.link}} <br>
-                                            Image: {{message.image}}
+                                            Image: {{message.image}} <br>
+                                            Timestamp: {{message.timestamp}}
                                         </div>
                                     </div>
                                     {% endif %}
@@ -183,31 +185,46 @@ function updateUserList(users) {
 }
 
 $(document).ready(function() {
+    
     var socket = io.connect('http://' + document.domain + ':' + location.port);
-    var from_user = '{{username}}';
-    socket.emit('room', {from_user: from_user, room: 'test'});
+    var curr_user = '{{username}}';
+    socket.emit('room', {from_user: curr_user, room: curr_user});
 
     $('.menu .item').on('click', function() {
         var with_user = $(this).attr('data-tab');
-        
     });
     socket.on('message', function(message) {
-        $('#{{['test3', 'messages'] | join}} ').append(
-            '<div class="left floated column">' +
-                '<div class="ui left aligned segment">'+
-                    'test' +
+        console.log(message)
+        if (message.sender === curr_user){
+            var chat = message.receiver;
+            var side = 'right';
+        }
+        else{
+            var chat = message.sender;
+            var side = 'left';
+        };
+        
+        $('#' + chat + 'messages').append(
+            '<div class="' + side + ' floated column">' +
+                '<div class="ui ' + side + ' aligned segment">'+
+                    'Link:' + message.link + '<br>' +
+                    'Image:' + message.image + '<br>' +
+                    'Timestamp:' + message.timestamp +
                 '</div>' +
             '</div>'
         );
-    });
+        });
     $(random_meme).click(function() {
         var person = $(this).attr('person');
+        console.log('sending to ' + person);
         socket.emit('random', {from_user: '{{username}}', to_user: person});
     });
     $(search_meme).click(function() {
         var person = $(this).attr('person');
         socket.emit('search', {from_user: '{{username}}', to_user: person});
     });
+
+
     $(' .menu .item').tab();
     $searchForUser.keyup(function() {
         query = $searchForUser.val();
@@ -222,10 +239,12 @@ $(document).ready(function() {
                 clearUserList();
                 updateUserList(response['users']);
             });
-        } else {
+        } 
+        else {
             clearUserList();
-        }
+        };
     });
+
 });
 </script>
 
